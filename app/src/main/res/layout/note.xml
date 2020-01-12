@@ -11,13 +11,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="4dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/act_main_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
+            android:textColor="@color/colorAccent"
             android:maxLines="2"
             android:layout_alignParentTop="true"
             android:ellipsize="end"
@@ -28,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Description"
+            android:textColor="@color/colorAccent"
             android:maxLines="10"
             android:ellipsize="end"
             android:layout_below="@+id/act_main_tv_title"
@@ -38,8 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="4:40 PM 18/07/20"
+            android:textColor="@color/colorAccent"
             android:layout_below="@+id/act_main_tv_note"
-            android:gravity="center"
+            android:gravity="center|right"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"/>
 
