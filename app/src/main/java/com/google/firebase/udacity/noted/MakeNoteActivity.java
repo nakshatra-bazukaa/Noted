@@ -1,14 +1,69 @@
 package com.google.firebase.udacity.noted;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MakeNoteActivity extends AppCompatActivity {
+
+    public static final String EXTRA_TITLE = "com.google.firebase.udacity.noted.EXTRA_TITLE";
+
+    public static final String EXTRA_NOTE = "com.google.firebase.udacity.noted.EXTRA_NOTE";
+
+
+    @BindView(R.id.act_makeNote_toolbar)
+    Toolbar actMakeNoteToolbar;
+
+    @BindView(R.id.act_makeNote_et_title)
+    EditText titleEditText;
+
+    @BindView(R.id.act_makeNote_et_note)
+    EditText noteEditText;
+
+    @BindView(R.id.act_makeNote_tv_time)
+    TextView timeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_note);
+        ButterKnife.bind(this);
+
+        //Setting up the toolbar
+        setSupportActionBar(actMakeNoteToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("");
     }
+
+    private void saveNote(){
+        String title = titleEditText.getText().toString();
+        String note = noteEditText.getText().toString();
+
+        if(title.trim().isEmpty() && note.trim().isEmpty()){
+            return;
+        }
+
+        Intent data = new Intent();
+
+        data.putExtra(EXTRA_TITLE, title);
+        data.putExtra(EXTRA_NOTE, note);
+
+        setResult(RESULT_OK, data);
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveNote();
+    }
+
 }

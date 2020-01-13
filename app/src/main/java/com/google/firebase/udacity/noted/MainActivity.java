@@ -1,5 +1,6 @@
 package com.google.firebase.udacity.noted;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -7,15 +8,21 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int ADD_NOTE_REQUEST = 1;
 
     private NoteViewModel noteViewModel;
 
@@ -24,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.act_main_rv_notes)
     RecyclerView noteRecyclerView;
+
+    @BindView(R.id.act_main_fab_add)
+    FloatingActionButton addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +56,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-//    private void noteRecyclerView(){
-//        NoteAdapter adapter = new NoteAdapter();
-//        noteRecyclerView.setAdapter(adapter);
-//        noteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//    }
+
+    @OnClick(R.id.act_main_fab_add)
+    public void onFabClicked(){
+        Intent intent = new Intent(MainActivity.this, MakeNoteActivity.class);
+        startActivityForResult(intent, ADD_NOTE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK){
+            String title = data.getStringExtra(MakeNoteActivity.EXTRA_TITLE);
+            String note = data.getStringExtra(MakeNoteActivity.EXTRA_NOTE);
+
+            Note notedNote = new Note(title, note, 10000);
+            noteViewModel.insert(notedNote);
+
+            Toast.makeText(this, "Note Saved successfully", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "Empty Note not saved", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

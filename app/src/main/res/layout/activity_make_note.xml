@@ -6,4 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".MakeNoteActivity">
 
+    <include
+        android:id="@+id/act_makeNote_toolbar"
+        layout="@layout/toolbar"
+        />
+
+    <EditText
+        android:id="@+id/act_makeNote_et_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/title"
+        android:background="@null"
+        app:layout_constraintTop_toBottomOf="@id/act_makeNote_toolbar"
+        android:padding="16dp"/>
+    <EditText
+        android:id="@+id/act_makeNote_et_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/note"
+        android:background="@null"
+        app:layout_constraintTop_toBottomOf="@+id/act_makeNote_et_title"
+        android:padding="16dp"/>
+    <TextView
+        android:id="@+id/act_makeNote_tv_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Last changed 6:56 PM May 25, 2019"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="16dp"/>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
