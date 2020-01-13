@@ -25,6 +25,7 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
     public static final int ADD_NOTE_REQUEST = 1;
+    public static final int EDIT_NOTE_REQUEST = 2;
 
     private NoteViewModel noteViewModel;
 
@@ -73,10 +74,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(noteRecyclerView);
 
+        adapter.setOnItemClickListener(new NoteAdapter.OnNoteCardClickListener() {
+            @Override
+            public void onNoteCardClick(Note note) {
+                Intent intent = new Intent(MainActivity.this, MakeNoteActivity.class);
+                intent.putExtra(MakeNoteActivity.EXTRA_ID, note.getId());
+                intent.putExtra(MakeNoteActivity.EXTRA_TITLE, note.getTitle());
+                intent.putExtra(MakeNoteActivity.EXTRA_NOTE, note.getNote());
+                startActivityForResult(intent, EDIT_NOTE_REQUEST);
+            }
+        });
     }
 
     @OnClick(R.id.act_main_fab_add)
-    public void onFabClicked(){
+    public void onFabClicked() {
         Intent intent = new Intent(MainActivity.this, MakeNoteActivity.class);
         startActivityForResult(intent, ADD_NOTE_REQUEST);
     }
@@ -85,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK){
+        if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
             String title = data.getStringExtra(MakeNoteActivity.EXTRA_TITLE);
             String note = data.getStringExtra(MakeNoteActivity.EXTRA_NOTE);
 
@@ -93,8 +104,23 @@ public class MainActivity extends AppCompatActivity {
             noteViewModel.insert(notedNote);
 
             Toast.makeText(this, "Note Saved successfully", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(MakeNoteActivity.EXTRA_ID, -1);
+            if(id == -1){
+                Toast.makeText(this, "Toast can't be updated", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String title = data.getStringExtra(MakeNoteActivity.EXTRA_TITLE);
+            String note = data.getStringExtra(MakeNoteActivity.EXTRA_NOTE);
+
+            Note notedNote = new Note(title, note, 10000);
+            notedNote.setId(id);
+            noteViewModel.update(notedNote);
+
+            Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();
+
+        } else {
             Toast.makeText(this, "Empty Note not saved", Toast.LENGTH_SHORT).show();
         }
     }

@@ -22,6 +22,9 @@ public class MakeNoteActivity extends AppCompatActivity {
 
     public static final String EXTRA_NOTE = "com.google.firebase.udacity.noted.EXTRA_NOTE";
 
+    public static final String EXTRA_ID = "com.google.firebase.udacity.noted.EXTRA_ID";
+
+
 
     @BindView(R.id.act_makeNote_toolbar)
     Toolbar actMakeNoteToolbar;
@@ -56,12 +59,17 @@ public class MakeNoteActivity extends AppCompatActivity {
         }
 
         Intent data = new Intent();
-
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_NOTE, note);
 
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if(id != -1){
+            data.putExtra(EXTRA_ID, id);
+        }
+
         setResult(RESULT_OK, data);
         finish();
+
     }
 
     @Override
