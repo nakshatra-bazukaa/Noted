@@ -74,21 +74,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(noteRecyclerView);
 
-        adapter.setOnItemClickListener(new NoteAdapter.OnNoteCardClickListener() {
+        //To Edit a note
+        adapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
             @Override
-            public void onNoteCardClick(Note note) {
-                Intent intent = new Intent(MainActivity.this, MakeNoteActivity.class);
-                intent.putExtra(MakeNoteActivity.EXTRA_ID, note.getId());
-                intent.putExtra(MakeNoteActivity.EXTRA_TITLE, note.getTitle());
-                intent.putExtra(MakeNoteActivity.EXTRA_NOTE, note.getNote());
+            public void onItemClick(Note note) {
+                Intent intent = new Intent(MainActivity.this, MakeEditNoteActivity.class);
+                intent.putExtra(MakeEditNoteActivity.EXTRA_ID, note.getId());
+                intent.putExtra(MakeEditNoteActivity.EXTRA_TITLE, note.getTitle());
+                intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, note.getNote());
                 startActivityForResult(intent, EDIT_NOTE_REQUEST);
             }
         });
     }
-
+    //To create a new note
     @OnClick(R.id.act_main_fab_add)
     public void onFabClicked() {
-        Intent intent = new Intent(MainActivity.this, MakeNoteActivity.class);
+        Intent intent = new Intent(MainActivity.this, MakeEditNoteActivity.class);
         startActivityForResult(intent, ADD_NOTE_REQUEST);
     }
 
@@ -97,22 +98,26 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
-            String title = data.getStringExtra(MakeNoteActivity.EXTRA_TITLE);
-            String note = data.getStringExtra(MakeNoteActivity.EXTRA_NOTE);
+            String title = data.getStringExtra(MakeEditNoteActivity.EXTRA_TITLE);
+            String note = data.getStringExtra(MakeEditNoteActivity.EXTRA_NOTE);
 
             Note notedNote = new Note(title, note, 10000);
             noteViewModel.insert(notedNote);
 
             Toast.makeText(this, "Note Saved successfully", Toast.LENGTH_SHORT).show();
-        } else if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
-            int id = data.getIntExtra(MakeNoteActivity.EXTRA_ID, -1);
+        }else if(requestCode == ADD_NOTE_REQUEST) {
+            Toast.makeText(this, "Empty Note not saved", Toast.LENGTH_SHORT).show();
+        }
+
+        if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(MakeEditNoteActivity.EXTRA_ID, -1);
             if(id == -1){
-                Toast.makeText(this, "Toast can't be updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Note can't be updated", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            String title = data.getStringExtra(MakeNoteActivity.EXTRA_TITLE);
-            String note = data.getStringExtra(MakeNoteActivity.EXTRA_NOTE);
+            String title = data.getStringExtra(MakeEditNoteActivity.EXTRA_TITLE);
+            String note = data.getStringExtra(MakeEditNoteActivity.EXTRA_NOTE);
 
             Note notedNote = new Note(title, note, 10000);
             notedNote.setId(id);
@@ -120,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();
 
-        } else {
-            Toast.makeText(this, "Empty Note not saved", Toast.LENGTH_SHORT).show();
+        }else if(requestCode == EDIT_NOTE_REQUEST){
+            Toast.makeText(this, "Note Unchanged", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MakeNoteActivity">
+    tools:context=".MakeEditNoteActivity">
 
     <include
         android:id="@+id/act_makeNote_toolbar"

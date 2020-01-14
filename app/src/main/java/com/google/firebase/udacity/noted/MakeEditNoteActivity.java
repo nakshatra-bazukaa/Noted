@@ -16,7 +16,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MakeNoteActivity extends AppCompatActivity {
+public class MakeEditNoteActivity extends AppCompatActivity {
 
     public static final String EXTRA_TITLE = "com.google.firebase.udacity.noted.EXTRA_TITLE";
 
@@ -48,6 +48,14 @@ public class MakeNoteActivity extends AppCompatActivity {
         setSupportActionBar(actMakeNoteToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("");
+
+        //To edit the note
+        Intent intent = getIntent();
+
+        if(intent.hasExtra(EXTRA_ID)){
+            titleEditText.setText(intent.getStringExtra(EXTRA_TITLE));
+            noteEditText.setText(intent.getStringExtra(EXTRA_NOTE));
+        }
     }
 
     private void saveNote(){
@@ -62,6 +70,7 @@ public class MakeNoteActivity extends AppCompatActivity {
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_NOTE, note);
 
+        //To edit the note
         int id = getIntent().getIntExtra(EXTRA_ID, -1);
         if(id != -1){
             data.putExtra(EXTRA_ID, id);
