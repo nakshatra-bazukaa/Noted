@@ -1,4 +1,4 @@
-package com.google.firebase.udacity.noted;
+package com.github.bazukaa.nakshatra.noted;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
