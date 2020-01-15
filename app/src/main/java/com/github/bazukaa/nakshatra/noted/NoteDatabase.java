@@ -9,6 +9,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Database(entities = {Note.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
 
@@ -45,7 +48,17 @@ public abstract class NoteDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            noteDao.insert(new Note("WalkThrough", "1. To reveal the contents of the card click on it.\n2. To create a note click on the fab at the bottom of the screen, to save a note click on the check button on the top right corner.\n3. To delete a note just swipe left or right over its card.\n4. Saved notes can also be updated by clicking on its card.\n5. Feel free to mail me to make this app more happening by dropping down your valuable suggestion on nakshatravasugupta@gmail.com .", 1));
+            String title = "About The App";
+            String note =
+                    "1. To reveal the contents of the card click on it.\n\n" +
+                            "2. To switch between Grid type and list type click the button on the top right corner of the main screen\n\n "+
+                            "3. To create a note click on the fab at the bottom of the screen, to save a note click on the check button on the top right corner.\n\n" +
+                            "4. To delete a note just swipe left or right over its card.\n\n" +
+                            "5. Saved notes can also be updated by clicking on its card.\n\n" +
+                            "6. Feel free to mail me to make this app more happening by dropping down your valuable suggestion on nakshatravasugupta@gmail.com .";
+            long timeStamp = System.currentTimeMillis();
+            Note initialNote = new Note(title, note, timeStamp);
+            noteDao.insert(initialNote);
             return null;
         }
     }
