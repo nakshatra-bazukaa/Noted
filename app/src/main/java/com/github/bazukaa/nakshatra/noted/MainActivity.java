@@ -6,12 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
     public static final int EDIT_NOTE_REQUEST = 2;
 
     private NoteViewModel noteViewModel;
+
+    private RecyclerView.LayoutManager layoutManager;
+
+    private MenuItem grid;
+    private MenuItem list;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -49,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         NoteAdapter adapter = new NoteAdapter();
         noteRecyclerView.setAdapter(adapter);
-        noteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        noteRecyclerView.setLayoutManager(layoutManager);
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
         noteViewModel.getNotes().observe(this, new Observer<List<Note>>() {
@@ -86,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     //To create a new note
     @OnClick(R.id.act_main_fab_add)
     public void onFabClicked() {
@@ -105,13 +117,13 @@ public class MainActivity extends AppCompatActivity {
             noteViewModel.insert(notedNote);
 
             Toast.makeText(this, "Note Saved successfully", Toast.LENGTH_SHORT).show();
-        }else if(requestCode == ADD_NOTE_REQUEST) {
+        } else if (requestCode == ADD_NOTE_REQUEST) {
             Toast.makeText(this, "Empty Note not saved", Toast.LENGTH_SHORT).show();
         }
 
         if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
             int id = data.getIntExtra(MakeEditNoteActivity.EXTRA_ID, -1);
-            if(id == -1){
+            if (id == -1) {
                 Toast.makeText(this, "Note can't be updated", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -125,8 +137,39 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();
 
-        }else if(requestCode == EDIT_NOTE_REQUEST){
+        } else if (requestCode == EDIT_NOTE_REQUEST) {
             Toast.makeText(this, "Note Unchanged", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_act_main, menu);
+
+        grid = menu.findItem(R.id.set_layout_grid);
+        list = menu.findItem(R.id.set_layout_list);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.set_layout_grid:
+                layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+                noteRecyclerView.setLayoutManager(layoutManager);
+                grid.setVisible(false);
+                list.setVisible(true);
+                return true;
+            case R.id.set_layout_list:
+                layoutManager = new LinearLayoutManager(MainActivity.this);
+                noteRecyclerView.setLayoutManager(layoutManager);
+                grid.setVisible(true);
+                list.setVisible(false);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

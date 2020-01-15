@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/set_layout_grid"
+        android:icon="@drawable/ic_border_all"
+        android:title="grid"
+        app:showAsAction="ifRoom"
+        android:visible="false"
+        />
+    <item
+        android:id="@+id/set_layout_list"
+        android:icon="@drawable/ic_view_list"
+        android:title="list"
+        app:showAsAction="ifRoom"
+        android:visible="true"
+        />
+
+</menu>

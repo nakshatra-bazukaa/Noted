@@ -45,7 +45,7 @@ public abstract class NoteDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            noteDao.insert(new Note("Title 1", "Description 1", 1));
+            noteDao.insert(new Note("WalkThrough", "1. To reveal the contents of the card click on it.\n2. To create a note click on the fab at the bottom of the screen, to save a note click on the check button on the top right corner.\n3. To delete a note just swipe left or right over its card.\n4. Saved notes can also be updated by clicking on its card.\n5. Feel free to mail me to make this app more happening by dropping down your valuable suggestion on nakshatravasugupta@gmail.com .", 1));
             return null;
         }
     }
