@@ -17,11 +17,13 @@ import butterknife.ButterKnife;
 
 public class MakeEditNoteActivity extends AppCompatActivity {
 
-    public static final String EXTRA_TITLE = "com.google.firebase.udacity.noted.EXTRA_TITLE";
+    public static final String EXTRA_TITLE = "com.github.bazukaa.nakshatra.noted.EXTRA_TITLE";
 
-    public static final String EXTRA_NOTE = "com.google.firebase.udacity.noted.EXTRA_NOTE";
+    public static final String EXTRA_NOTE = "com.github.bazukaa.nakshatra.noted.EXTRA_NOTE";
 
-    public static final String EXTRA_ID = "com.google.firebase.udacity.noted.EXTRA_ID";
+    public static final String EXTRA_TIMESTAMP = "com.github.bazukaa.nakshatra.noted.EXTRA_TIMESTAMP";
+
+    public static final String EXTRA_ID = "com.github.bazukaa.nakshatra.noted.EXTRA_ID";
 
 
 
@@ -54,12 +56,14 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         if(intent.hasExtra(EXTRA_ID)){
             titleEditText.setText(intent.getStringExtra(EXTRA_TITLE));
             noteEditText.setText(intent.getStringExtra(EXTRA_NOTE));
+            timeTextView.setText(intent.getStringExtra(EXTRA_TIMESTAMP));
         }
     }
 
     private void saveNote(){
         String title = titleEditText.getText().toString();
         String note = noteEditText.getText().toString();
+        long timeStamp = System.currentTimeMillis();
 
         if(title.trim().isEmpty() && note.trim().isEmpty()){
             return;
@@ -68,6 +72,7 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         Intent data = new Intent();
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_NOTE, note);
+        data.putExtra(EXTRA_TIMESTAMP, timeStamp);
 
         //To edit the note
         int id = getIntent().getIntExtra(EXTRA_ID, -1);

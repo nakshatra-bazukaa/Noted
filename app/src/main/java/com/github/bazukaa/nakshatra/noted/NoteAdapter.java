@@ -4,12 +4,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
@@ -36,7 +36,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         Note note = notes.get(position);
         holder.titleTv.setText(note.getTitle());
         holder.noteTv.setText(note.getNote());
-        holder.timeTv.setText(String.valueOf(note.getTimeStamp()));
+
+        //Formatting currentTimeMillis in desired form
+        long currentTimeMillis = note.getTimeStamp();
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa MMM dd, yyyy");
+        Date resultdate = new Date(currentTimeMillis);
+        String timeStamp = "Last changed";
+        timeStamp = timeStamp+" "+String.valueOf(sdf.format(resultdate));
+        holder.timeTv.setText(timeStamp);
     }
 
     @Override

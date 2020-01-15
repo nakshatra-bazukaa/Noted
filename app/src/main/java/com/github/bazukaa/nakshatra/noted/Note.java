@@ -13,9 +13,9 @@ public class Note {
 
     private String note;
 
-    private int timeStamp;
+    private long timeStamp;
 
-    public Note(String title, String note, int timeStamp) {
+    public Note(String title, String note, long timeStamp) {
         this.title = title;
         this.note = note;
         this.timeStamp = timeStamp;
@@ -33,7 +33,7 @@ public class Note {
 
     public void setNote(String note) { this.note = note; }
 
-    public int getTimeStamp() { return timeStamp; }
+    public long getTimeStamp() { return timeStamp; }
 
     public void setTimeStamp(int timeStamp) { this.timeStamp = timeStamp; }
 }

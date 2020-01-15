@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -93,6 +95,15 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(MakeEditNoteActivity.EXTRA_ID, note.getId());
                 intent.putExtra(MakeEditNoteActivity.EXTRA_TITLE, note.getTitle());
                 intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, note.getNote());
+
+                //Formatting currentTimeMillis in desired form before sending to MakeEditNoteActivity
+                long currentTimeMillis = note.getTimeStamp();
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa MMM dd, yyyy");
+                Date resultdate = new Date(currentTimeMillis);
+                String timeStamp = "Last changed";
+                timeStamp = timeStamp+" "+String.valueOf(sdf.format(resultdate));
+                intent.putExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, timeStamp);
+
                 startActivityForResult(intent, EDIT_NOTE_REQUEST);
             }
         });
@@ -112,8 +123,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
             String title = data.getStringExtra(MakeEditNoteActivity.EXTRA_TITLE);
             String note = data.getStringExtra(MakeEditNoteActivity.EXTRA_NOTE);
+            long timeStamp = data.getLongExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, 10000);
 
-            Note notedNote = new Note(title, note, 10000);
+            Note notedNote = new Note(title, note, timeStamp);
             noteViewModel.insert(notedNote);
 
             Toast.makeText(this, "Note Saved successfully", Toast.LENGTH_SHORT).show();
@@ -130,8 +142,9 @@ public class MainActivity extends AppCompatActivity {
 
             String title = data.getStringExtra(MakeEditNoteActivity.EXTRA_TITLE);
             String note = data.getStringExtra(MakeEditNoteActivity.EXTRA_NOTE);
+            long timeStamp = data.getLongExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, 10000);
 
-            Note notedNote = new Note(title, note, 10000);
+            Note notedNote = new Note(title, note, timeStamp);
             notedNote.setId(id);
             noteViewModel.update(notedNote);
 
