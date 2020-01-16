@@ -37,7 +37,6 @@
         android:id="@+id/act_makeNote_tv_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Last changed 6:56 PM May 25, 2019"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
