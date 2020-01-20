@@ -1,4 +1,4 @@
-package com.github.bazukaa.nakshatra.noted;
+package com.github.bazukaa.nakshatra.noted.ui.home;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +18,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.github.bazukaa.nakshatra.noted.ui.home.adapter.NoteAdapter;
+import com.github.bazukaa.nakshatra.noted.ui.makeeditnote.MakeEditNoteActivity;
+import com.github.bazukaa.nakshatra.noted.R;
+import com.github.bazukaa.nakshatra.noted.db.entity.Note;
+import com.github.bazukaa.nakshatra.noted.viewmodel.NoteViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;

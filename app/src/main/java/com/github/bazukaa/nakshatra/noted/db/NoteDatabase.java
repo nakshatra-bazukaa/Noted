@@ -1,4 +1,4 @@
-package com.github.bazukaa.nakshatra.noted;
+package com.github.bazukaa.nakshatra.noted.db;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,8 +9,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.github.bazukaa.nakshatra.noted.db.dao.NoteDao;
+import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 
 @Database(entities = {Note.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {

@@ -1,4 +1,4 @@
-package com.github.bazukaa.nakshatra.noted;
+package com.github.bazukaa.nakshatra.noted.db.entity;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

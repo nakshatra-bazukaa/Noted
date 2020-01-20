@@ -1,4 +1,4 @@
-package com.github.bazukaa.nakshatra.noted;
+package com.github.bazukaa.nakshatra.noted.ui.home.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +6,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.github.bazukaa.nakshatra.noted.R;
+import com.github.bazukaa.nakshatra.noted.db.entity.Note;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;

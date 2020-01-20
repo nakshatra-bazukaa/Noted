@@ -5,6 +5,10 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import com.github.bazukaa.nakshatra.noted.db.NoteDatabase;
+import com.github.bazukaa.nakshatra.noted.db.dao.NoteDao;
+import com.github.bazukaa.nakshatra.noted.db.entity.Note;
+
 import java.util.List;
 
 public class NoteRepository {

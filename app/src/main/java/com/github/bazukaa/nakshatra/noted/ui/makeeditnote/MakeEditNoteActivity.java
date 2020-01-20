@@ -1,4 +1,4 @@
-package com.github.bazukaa.nakshatra.noted;
+package com.github.bazukaa.nakshatra.noted.ui.makeeditnote;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.github.bazukaa.nakshatra.noted.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
