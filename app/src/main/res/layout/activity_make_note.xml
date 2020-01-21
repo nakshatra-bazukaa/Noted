@@ -25,13 +25,17 @@
         android:layout_marginEnd="20dp"/>
     <EditText
         android:id="@+id/act_makeNote_et_note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:hint="@string/note"
         android:background="@null"
         app:layout_constraintTop_toBottomOf="@+id/act_makeNote_et_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/act_makeNote_tv_time"
         android:fontFamily="sans-serif"
         android:textSize="16sp"
+        android:gravity="left|top|center"
         android:layout_margin="20dp"/>
     <TextView
         android:id="@+id/act_makeNote_tv_time"
