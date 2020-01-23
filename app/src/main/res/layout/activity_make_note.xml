@@ -22,7 +22,8 @@
         android:textSize="22sp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"/>
+        android:layout_marginEnd="20dp"
+        android:inputType="textCapSentences"/>
     <EditText
         android:id="@+id/act_makeNote_et_note"
         android:layout_width="0dp"
@@ -36,7 +37,8 @@
         android:fontFamily="sans-serif"
         android:textSize="16sp"
         android:gravity="left|top|center"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp"
+        android:inputType="textCapSentences"/>
     <TextView
         android:id="@+id/act_makeNote_tv_time"
         android:layout_width="match_parent"

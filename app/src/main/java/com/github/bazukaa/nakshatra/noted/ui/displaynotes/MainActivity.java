@@ -1,4 +1,4 @@
-package com.github.bazukaa.nakshatra.noted.ui.home;
+package com.github.bazukaa.nakshatra.noted.ui.displaynotes;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.github.bazukaa.nakshatra.noted.ui.home.adapter.NoteAdapter;
+import com.github.bazukaa.nakshatra.noted.ui.displaynotes.adapter.NoteAdapter;
 import com.github.bazukaa.nakshatra.noted.ui.makeeditnote.MakeEditNoteActivity;
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;

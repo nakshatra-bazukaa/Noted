@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.makeeditnote.MakeEditNoteActivity"
-            android:parentActivityName=".ui.home.MainActivity"></activity>
-        <activity android:name=".ui.home.MainActivity"
+            android:parentActivityName=".ui.displaynotes.MainActivity"></activity>
+        <activity android:name=".ui.displaynotes.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
