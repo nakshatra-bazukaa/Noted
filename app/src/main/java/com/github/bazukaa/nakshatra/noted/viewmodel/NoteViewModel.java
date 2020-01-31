@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.github.bazukaa.nakshatra.noted.NoteRepository;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
+import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
 
 import java.util.List;
 
@@ -37,4 +38,6 @@ public class NoteViewModel extends AndroidViewModel {
     public LiveData<List<Note>> getNotes(){
         return notes;
     }
+
+    public void insert(TrashNote trashNote) {noteRepository.insert(trashNote);}
 }

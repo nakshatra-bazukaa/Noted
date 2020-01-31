@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
 import com.github.bazukaa.nakshatra.noted.ui.displaynotes.adapter.NoteAdapter;
 import com.github.bazukaa.nakshatra.noted.ui.displaytrashnotes.TrashNotesActivity;
 import com.github.bazukaa.nakshatra.noted.ui.makeeditnote.MakeEditNoteActivity;
@@ -88,8 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                noteViewModel.delete(adapter.getNotePosition(viewHolder.getAdapterPosition()));
-                Toast.makeText(MainActivity.this, "Note Removed", Toast.LENGTH_SHORT).show();
+                Note note = adapter.getNotePosition(viewHolder.getAdapterPosition());
+                TrashNote trashNote = new TrashNote(note.getTitle(), note.getNote(), note.getTimeStamp());
+                noteViewModel.insert(trashNote);
+                noteViewModel.delete(note);
+                Toast.makeText(MainActivity.this, "Note moved to trash", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(noteRecyclerView);
 
