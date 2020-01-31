@@ -15,5 +15,10 @@
         app:showAsAction="ifRoom"
         android:visible="true"
         />
+    <item
+        android:id="@+id/trash"
+        android:icon="@drawable/ic_delete"
+        android:title="Trash"
+        />
 
 </menu>

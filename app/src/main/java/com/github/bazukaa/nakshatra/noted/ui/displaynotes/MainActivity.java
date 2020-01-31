@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.github.bazukaa.nakshatra.noted.ui.displaynotes.adapter.NoteAdapter;
+import com.github.bazukaa.nakshatra.noted.ui.displaytrashnotes.TrashNotesActivity;
 import com.github.bazukaa.nakshatra.noted.ui.makeeditnote.MakeEditNoteActivity;
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MenuItem grid;
     private MenuItem list;
+    private MenuItem trash;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -166,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
         grid = menu.findItem(R.id.set_layout_grid);
         list = menu.findItem(R.id.set_layout_list);
+        trash = menu.findItem(R.id.trash);
         return true;
     }
 
@@ -184,6 +187,10 @@ public class MainActivity extends AppCompatActivity {
                 grid.setVisible(true);
                 list.setVisible(false);
                 return true;
+            case R.id.trash:
+                Intent intent = new Intent(MainActivity.this, TrashNotesActivity.class);
+                startActivity(intent);
+
             default:
                 return super.onOptionsItemSelected(item);
         }
