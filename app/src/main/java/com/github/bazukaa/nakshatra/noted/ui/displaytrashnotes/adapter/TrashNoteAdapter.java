@@ -22,6 +22,7 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
 
     private List<TrashNote> trashNotes = new ArrayList<>();
     private TrashNoteAdapter.OnTrashNoteItemClickListener listener;
+    private TrashNoteAdapter.OnTrashNoteItemLongClickListener longClickListener;
 
     @NonNull
     @Override
@@ -72,6 +73,17 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
                     }
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    int position = getAdapterPosition();
+                    if (longClickListener != null && position != RecyclerView.NO_POSITION) {
+                        longClickListener.onTrashNoteItemLongClick(trashNotes.get(position));
+                    }
+                    return true;
+                }
+            });
         }
     }
 
@@ -90,5 +102,13 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
 
     public void setOnTrashNoteItemClickListener(TrashNoteAdapter.OnTrashNoteItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public interface OnTrashNoteItemLongClickListener{
+        void onTrashNoteItemLongClick(TrashNote trashNote);
+    }
+
+    public void setOnTrashNoteItemLongClickListener(TrashNoteAdapter.OnTrashNoteItemLongClickListener listener){
+        this.longClickListener = listener;
     }
 }

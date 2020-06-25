@@ -9,10 +9,11 @@ import androidx.lifecycle.LiveData;
 import com.github.bazukaa.nakshatra.noted.NoteRepository;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
+import com.github.bazukaa.nakshatra.noted.model.NoteViewModelHelper;
 
 import java.util.List;
 
-public class NoteViewModel extends AndroidViewModel {
+public class NoteViewModel extends AndroidViewModel implements NoteViewModelHelper {
     private NoteRepository noteRepository;
     private LiveData<List<Note>> notes;
 

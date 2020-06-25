@@ -3,16 +3,19 @@ package com.github.bazukaa.nakshatra.noted.model;
 import androidx.lifecycle.LiveData;
 
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
+import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
 
 import java.util.List;
 
 public interface NoteViewModelHelper {
 
-    void insert();
+    void insert(Note note);
 
-    void update();
+    void update(Note note);
 
-    void delete();
+    void delete(Note note);
 
     LiveData<List<Note>> getNotes();
+
+    void insert(TrashNote trashNote);
 }

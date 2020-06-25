@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ActionMode;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -40,6 +42,8 @@ public class TrashNotesActivity extends AppCompatActivity {
     private TrashNoteViewModel trashNoteViewModel;
 
     private RecyclerView.LayoutManager layoutManager;
+
+    private androidx.appcompat.view.ActionMode mActionMode;
 
 
     @BindView(R.id.act_trash_note_toolbar)
@@ -100,13 +104,24 @@ public class TrashNotesActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa MMM dd, yyyy");
                 Date resultdate = new Date(currentTimeMillis);
                 String timeStamp = "Last changed";
-                timeStamp = timeStamp+" "+String.valueOf(sdf.format(resultdate));
+                timeStamp = timeStamp + " " + String.valueOf(sdf.format(resultdate));
                 intent.putExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, timeStamp);
 
                 startActivityForResult(intent, EDIT_TRASH_NOTE_REQUEST);
             }
         });
+
+        //To Restore a note
+        trashNoteAdapter.setOnTrashNoteItemLongClickListener(new TrashNoteAdapter.OnTrashNoteItemLongClickListener() {
+            @Override
+            public void onTrashNoteItemLongClick(TrashNote trashNote) {
+                trashNoteToolbar.startActionMode(mActionModeCallback);
+//                mActionMode = startSupportActionMode((androidx.appcompat.view.ActionMode.Callback) mActionModeCallback);
+
+            }
+        });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -133,4 +148,68 @@ public class TrashNotesActivity extends AppCompatActivity {
             Toast.makeText(this, "Note Unchanged", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+//    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+//        @Override
+//        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+//            mode.getMenuInflater().inflate(R.menu.trash_menu, menu);
+//            mode.setTitle("");
+//            return true;
+//        }
+//
+//        @Override
+//        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//            return false;
+//        }
+//
+//        @Override
+//        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.restore_btn:
+//                    Toast.makeText(TrashNotesActivity.this, "Note Restored", Toast.LENGTH_SHORT);
+//                    return true;
+//                default:
+//                    return false;
+//            }
+//        }
+//
+//        @Override
+//        public void onDestroyActionMode(ActionMode mode) {
+//            mActionMode = null;
+//        }
+//
+//    };
+
+    private android.view.ActionMode.Callback mActionModeCallback = new android.view.ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(android.view.ActionMode actionMode, Menu menu) {
+            actionMode.getMenuInflater().inflate(R.menu.trash_menu, menu);
+            actionMode.setTitle("");
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(android.view.ActionMode actionMode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.restore_btn:
+                    Toast.makeText(TrashNotesActivity.this, "Note Restored", Toast.LENGTH_SHORT);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(android.view.ActionMode actionMode) {
+            mActionMode = null;
+        }
+    };
+
+
 }
