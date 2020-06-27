@@ -44,6 +44,7 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
         timeStamp = timeStamp+" "+String.valueOf(sdf.format(resultdate));
         holder.timeTv.setText(timeStamp);
 
+
     }
 
     @Override
@@ -53,9 +54,7 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
 
     public class TrashNoteHolder extends RecyclerView.ViewHolder{
 
-        private TextView titleTv;
-        private TextView noteTv;
-        private TextView timeTv;
+        private TextView titleTv, noteTv, timeTv;
 
         public TrashNoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,13 +63,10 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
             noteTv = itemView.findViewById(R.id.act_main_tv_note);
             timeTv = itemView.findViewById(R.id.act_main_tv_time);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onTrashNoteItemClick(trashNotes.get(position));
-                    }
+            itemView.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onTrashNoteItemClick(trashNotes.get(position));
                 }
             });
 

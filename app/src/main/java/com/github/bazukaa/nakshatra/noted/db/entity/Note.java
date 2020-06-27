@@ -1,6 +1,7 @@
 package com.github.bazukaa.nakshatra.noted.db.entity;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "note_table")
@@ -14,6 +15,14 @@ public class Note {
     private String note;
 
     private long timeStamp;
+
+    @Ignore
+    public Note(int id, String title, String note, long timeStamp) {
+        this.id = id;
+        this.title = title;
+        this.note = note;
+        this.timeStamp = timeStamp;
+    }
 
     public Note(String title, String note, long timeStamp) {
         this.title = title;

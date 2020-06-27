@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.github.bazukaa.nakshatra.noted.R;
@@ -25,6 +26,7 @@ import com.github.bazukaa.nakshatra.noted.ui.displaynotes.MainActivity;
 import com.github.bazukaa.nakshatra.noted.ui.displaynotes.adapter.NoteAdapter;
 import com.github.bazukaa.nakshatra.noted.ui.displaytrashnotes.adapter.TrashNoteAdapter;
 import com.github.bazukaa.nakshatra.noted.ui.makeeditnote.MakeEditNoteActivity;
+import com.github.bazukaa.nakshatra.noted.viewmodel.NoteViewModel;
 import com.github.bazukaa.nakshatra.noted.viewmodel.TrashNoteViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -42,8 +44,6 @@ public class TrashNotesActivity extends AppCompatActivity {
     private TrashNoteViewModel trashNoteViewModel;
 
     private RecyclerView.LayoutManager layoutManager;
-
-    private androidx.appcompat.view.ActionMode mActionMode;
 
 
     @BindView(R.id.act_trash_note_toolbar)
@@ -86,7 +86,7 @@ public class TrashNotesActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 trashNoteViewModel.delete(trashNoteAdapter.getTrashNotePosition(viewHolder.getAdapterPosition()));
-                Toast.makeText(TrashNotesActivity.this, "Note Removed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TrashNotesActivity.this, "Note Removed Permanently", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(trashNoteRecyclerView);
 
@@ -115,9 +115,10 @@ public class TrashNotesActivity extends AppCompatActivity {
         trashNoteAdapter.setOnTrashNoteItemLongClickListener(new TrashNoteAdapter.OnTrashNoteItemLongClickListener() {
             @Override
             public void onTrashNoteItemLongClick(TrashNote trashNote) {
-                trashNoteToolbar.startActionMode(mActionModeCallback);
-//                mActionMode = startSupportActionMode((androidx.appcompat.view.ActionMode.Callback) mActionModeCallback);
-
+                Note restoredNote = new Note(trashNote.getId(), trashNote.getTitle(), trashNote.getNote(), trashNote.getTimestamp());
+                trashNoteViewModel.insert(restoredNote);
+                trashNoteViewModel.delete(trashNote);
+                Toast.makeText(TrashNotesActivity.this, "Note Restored", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -148,68 +149,4 @@ public class TrashNotesActivity extends AppCompatActivity {
             Toast.makeText(this, "Note Unchanged", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-//    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-//        @Override
-//        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-//            mode.getMenuInflater().inflate(R.menu.trash_menu, menu);
-//            mode.setTitle("");
-//            return true;
-//        }
-//
-//        @Override
-//        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-//            return false;
-//        }
-//
-//        @Override
-//        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-//            switch (item.getItemId()) {
-//                case R.id.restore_btn:
-//                    Toast.makeText(TrashNotesActivity.this, "Note Restored", Toast.LENGTH_SHORT);
-//                    return true;
-//                default:
-//                    return false;
-//            }
-//        }
-//
-//        @Override
-//        public void onDestroyActionMode(ActionMode mode) {
-//            mActionMode = null;
-//        }
-//
-//    };
-
-    private android.view.ActionMode.Callback mActionModeCallback = new android.view.ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(android.view.ActionMode actionMode, Menu menu) {
-            actionMode.getMenuInflater().inflate(R.menu.trash_menu, menu);
-            actionMode.setTitle("");
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(android.view.ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.restore_btn:
-                    Toast.makeText(TrashNotesActivity.this, "Note Restored", Toast.LENGTH_SHORT);
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(android.view.ActionMode actionMode) {
-            mActionMode = null;
-        }
-    };
-
-
 }

@@ -45,7 +45,6 @@ public abstract class NoteDatabase extends RoomDatabase {
             noteDao = noteDatabase.noteDao();
         }
 
-
         @Override
         protected Void doInBackground(Void... voids) {
             String title = "About The App";

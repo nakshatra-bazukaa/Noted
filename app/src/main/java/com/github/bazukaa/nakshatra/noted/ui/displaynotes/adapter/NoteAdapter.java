@@ -37,7 +37,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa MMM dd, yyyy");
         Date resultdate = new Date(currentTimeMillis);
         String timeStamp = "Last changed";
-        timeStamp = timeStamp+" "+String.valueOf(sdf.format(resultdate));
+        timeStamp = timeStamp + " " + String.valueOf(sdf.format(resultdate));
         holder.timeTv.setText(timeStamp);
     }
 
@@ -48,9 +48,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
     public class NoteHolder extends RecyclerView.ViewHolder {
 
-        private TextView titleTv;
-        private TextView noteTv;
-        private TextView timeTv;
+        private TextView titleTv, noteTv, timeTv;
 
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,13 +57,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             noteTv = itemView.findViewById(R.id.act_main_tv_note);
             timeTv = itemView.findViewById(R.id.act_main_tv_time);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(notes.get(position));
-                    }
+            itemView.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(notes.get(position));
                 }
             });
         }

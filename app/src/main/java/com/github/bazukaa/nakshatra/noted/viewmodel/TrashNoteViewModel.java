@@ -7,11 +7,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.github.bazukaa.nakshatra.noted.NoteRepository;
+import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
+import com.github.bazukaa.nakshatra.noted.model.TrashViewModelHelper;
 
 import java.util.List;
 
-public class TrashNoteViewModel extends AndroidViewModel {
+public class TrashNoteViewModel extends AndroidViewModel implements TrashViewModelHelper {
     private NoteRepository noteRepository;
     private LiveData<List<TrashNote>> trashNotes;
 
@@ -29,4 +31,7 @@ public class TrashNoteViewModel extends AndroidViewModel {
     public void delete(TrashNote trashNote){noteRepository.delete(trashNote);}
 
     public LiveData<List<TrashNote>> getTrashNotes(){return trashNotes;}
+
+    public void insert(Note note) {noteRepository.insert(note);}
+
 }

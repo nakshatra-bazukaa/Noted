@@ -1,10 +1,8 @@
 package com.github.bazukaa.nakshatra.noted.model;
 
 import androidx.lifecycle.LiveData;
-
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
-
 import java.util.List;
 
 public interface NoteViewModelHelper {
