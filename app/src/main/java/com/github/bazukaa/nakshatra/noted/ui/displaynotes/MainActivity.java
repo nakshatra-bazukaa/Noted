@@ -72,12 +72,7 @@ public class MainActivity extends AppCompatActivity {
         noteRecyclerView.setLayoutManager(layoutManager);
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
-        noteViewModel.getNotes().observe(this, new Observer<List<Note>>() {
-            @Override
-            public void onChanged(List<Note> notes) {
-                adapter.setNotes(notes);
-            }
-        });
+        noteViewModel.getNotes().observe(this, notes -> adapter.setNotes(notes));
 
         //To delete a note
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -86,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
-
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Note note = adapter.getNotePosition(viewHolder.getAdapterPosition());
@@ -98,24 +92,21 @@ public class MainActivity extends AppCompatActivity {
         }).attachToRecyclerView(noteRecyclerView);
 
         //To Edit a note
-        adapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Note note) {
-                Intent intent = new Intent(MainActivity.this, MakeEditNoteActivity.class);
-                intent.putExtra(MakeEditNoteActivity.EXTRA_ID, note.getId());
-                intent.putExtra(MakeEditNoteActivity.EXTRA_TITLE, note.getTitle());
-                intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, note.getNote());
+        adapter.setOnItemClickListener(note -> {
+            Intent intent = new Intent(MainActivity.this, MakeEditNoteActivity.class);
+            intent.putExtra(MakeEditNoteActivity.EXTRA_ID, note.getId());
+            intent.putExtra(MakeEditNoteActivity.EXTRA_TITLE, note.getTitle());
+            intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, note.getNote());
 
-                //Formatting currentTimeMillis in desired form before sending to MakeEditNoteActivity
-                long currentTimeMillis = note.getTimeStamp();
-                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa MMM dd, yyyy");
-                Date resultdate = new Date(currentTimeMillis);
-                String timeStamp = "Last changed";
-                timeStamp = timeStamp+" "+String.valueOf(sdf.format(resultdate));
-                intent.putExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, timeStamp);
+            //Formatting currentTimeMillis in desired form before sending to MakeEditNoteActivity
+            long currentTimeMillis = note.getTimeStamp();
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa MMM dd, yyyy");
+            Date resultdate = new Date(currentTimeMillis);
+            String timeStamp = "Last changed";
+            timeStamp = timeStamp+" "+String.valueOf(sdf.format(resultdate));
+            intent.putExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, timeStamp);
 
-                startActivityForResult(intent, EDIT_NOTE_REQUEST);
-            }
+            startActivityForResult(intent, EDIT_NOTE_REQUEST);
         });
     }
 
