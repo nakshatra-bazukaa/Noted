@@ -1,4 +1,4 @@
-package com.github.bazukaa.nakshatra.noted;
+package com.github.bazukaa.nakshatra.noted.repository;
 
 import android.app.Application;
 import androidx.lifecycle.LiveData;
@@ -8,8 +8,8 @@ import com.github.bazukaa.nakshatra.noted.db.dao.NoteDao;
 import com.github.bazukaa.nakshatra.noted.db.dao.TrashNoteDao;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
-import com.github.bazukaa.nakshatra.noted.utils.NoteAsyncTask;
-import com.github.bazukaa.nakshatra.noted.utils.TrashNoteAsyncTask;
+import com.github.bazukaa.nakshatra.noted.repository.utils.NoteAsyncTask;
+import com.github.bazukaa.nakshatra.noted.repository.utils.TrashNoteAsyncTask;
 import java.util.List;
 
 public class NoteRepository {

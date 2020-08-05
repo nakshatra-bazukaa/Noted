@@ -10,13 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.displaytrashnotes.TrashNotesActivity"
-            android:parentActivityName=".ui.displaynotes.MainActivity"></activity>
-        <activity android:name=".ui.displaynotes.MainActivity" />
+            android:parentActivityName=".ui.displaynotes.NotesActivity"></activity>
+        <activity android:name=".ui.displaynotes.NotesActivity" />
         <activity
             android:name=".ui.makeeditnote.MakeEditNoteActivity"
-            android:parentActivityName=".ui.displaynotes.MainActivity" />
+            android:parentActivityName=".ui.displaynotes.NotesActivity" />
         <activity
-            android:name=".ui.splash.Splash"
+            android:name=".ui.Splash"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

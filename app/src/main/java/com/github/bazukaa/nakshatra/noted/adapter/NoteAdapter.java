@@ -1,4 +1,4 @@
-package com.github.bazukaa.nakshatra.noted.ui.displaynotes.adapter;
+package com.github.bazukaa.nakshatra.noted.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

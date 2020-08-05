@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,22 +12,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
-import com.github.bazukaa.nakshatra.noted.ui.displaynotes.MainActivity;
-import com.github.bazukaa.nakshatra.noted.ui.displaynotes.adapter.NoteAdapter;
-import com.github.bazukaa.nakshatra.noted.ui.displaytrashnotes.adapter.TrashNoteAdapter;
+import com.github.bazukaa.nakshatra.noted.adapter.TrashNoteAdapter;
 import com.github.bazukaa.nakshatra.noted.ui.makeeditnote.MakeEditNoteActivity;
-import com.github.bazukaa.nakshatra.noted.viewmodel.NoteViewModel;
 import com.github.bazukaa.nakshatra.noted.viewmodel.TrashNoteViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

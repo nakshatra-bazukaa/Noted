@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +18,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
-import com.github.bazukaa.nakshatra.noted.ui.displaynotes.adapter.NoteAdapter;
+import com.github.bazukaa.nakshatra.noted.adapter.NoteAdapter;
 import com.github.bazukaa.nakshatra.noted.ui.displaytrashnotes.TrashNotesActivity;
 import com.github.bazukaa.nakshatra.noted.ui.makeeditnote.MakeEditNoteActivity;
 import com.github.bazukaa.nakshatra.noted.R;
@@ -29,13 +28,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class NotesActivity extends AppCompatActivity {
 
     public static final int ADD_NOTE_REQUEST = 1;
     public static final int EDIT_NOTE_REQUEST = 2;
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_notes);
         ButterKnife.bind(this);
 
         // Setting up the toolbar
@@ -87,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
                 TrashNote trashNote = new TrashNote(note.getTitle(), note.getNote(), note.getTimeStamp());
                 noteViewModel.insert(trashNote);
                 noteViewModel.delete(note);
-                Toast.makeText(MainActivity.this, "Note moved to trash", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NotesActivity.this, "Note moved to trash", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(noteRecyclerView);
 
         //To Edit a note
         adapter.setOnItemClickListener(note -> {
-            Intent intent = new Intent(MainActivity.this, MakeEditNoteActivity.class);
+            Intent intent = new Intent(NotesActivity.this, MakeEditNoteActivity.class);
             intent.putExtra(MakeEditNoteActivity.EXTRA_ID, note.getId());
             intent.putExtra(MakeEditNoteActivity.EXTRA_TITLE, note.getTitle());
             intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, note.getNote());
@@ -113,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     //To create a new note
     @OnClick(R.id.act_main_fab_add)
     public void onFabClicked() {
-        Intent intent = new Intent(MainActivity.this, MakeEditNoteActivity.class);
+        Intent intent = new Intent(NotesActivity.this, MakeEditNoteActivity.class);
         startActivityForResult(intent, ADD_NOTE_REQUEST);
     }
 
@@ -177,13 +175,13 @@ public class MainActivity extends AppCompatActivity {
                 list.setVisible(true);
                 return true;
             case R.id.set_layout_list:
-                layoutManager = new LinearLayoutManager(MainActivity.this);
+                layoutManager = new LinearLayoutManager(NotesActivity.this);
                 noteRecyclerView.setLayoutManager(layoutManager);
                 grid.setVisible(true);
                 list.setVisible(false);
                 return true;
             case R.id.trash:
-                Intent intent = new Intent(MainActivity.this, TrashNotesActivity.class);
+                Intent intent = new Intent(NotesActivity.this, TrashNotesActivity.class);
                 startActivity(intent);
 
             default:

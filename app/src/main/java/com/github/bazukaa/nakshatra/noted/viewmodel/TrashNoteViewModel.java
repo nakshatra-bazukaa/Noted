@@ -6,10 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.github.bazukaa.nakshatra.noted.NoteRepository;
+import com.github.bazukaa.nakshatra.noted.repository.NoteRepository;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
-import com.github.bazukaa.nakshatra.noted.model.TrashViewModelHelper;
+import com.github.bazukaa.nakshatra.noted.viewmodelhelper.TrashViewModelHelper;
 
 import java.util.List;
 

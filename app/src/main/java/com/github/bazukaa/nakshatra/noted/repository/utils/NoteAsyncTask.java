@@ -1,4 +1,4 @@
-package com.github.bazukaa.nakshatra.noted.utils;
+package com.github.bazukaa.nakshatra.noted.repository.utils;
 
 import android.os.AsyncTask;
 import com.github.bazukaa.nakshatra.noted.db.dao.NoteDao;

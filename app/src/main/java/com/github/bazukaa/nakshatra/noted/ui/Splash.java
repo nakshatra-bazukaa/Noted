@@ -1,4 +1,4 @@
-package com.github.bazukaa.nakshatra.noted.ui.splash;
+package com.github.bazukaa.nakshatra.noted.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.github.bazukaa.nakshatra.noted.R;
-import com.github.bazukaa.nakshatra.noted.ui.displaynotes.MainActivity;
+import com.github.bazukaa.nakshatra.noted.ui.displaynotes.NotesActivity;
 
 public class Splash extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent splashIntent = new Intent(Splash.this, MainActivity.class);
+                Intent splashIntent = new Intent(Splash.this, NotesActivity.class);
                 startActivity(splashIntent);
                 finish();
             }
