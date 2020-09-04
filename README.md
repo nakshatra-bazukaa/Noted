@@ -2,13 +2,56 @@
 
 # Noted - A note taking app [![Generic badge](https://img.shields.io/badge/Noted-Download-<COLOR>.svg)]()
 
-# Description
-A note taking app implementing room persistence library, live data and MVVM architecture.
+# Project Description
+1. It is an open-source Android application that allows people to take notes, app code is implemented in Java.
+2. An android app implementing room persistence library and live data.
+3. App architecture - MVVM architecture.
+4. It has many cool gesture features to handle the created notes in a fun way, like swipe to delete and long press to restore notes from trash.
+5. The user can generate a note by providing title and description with a very user-friendly UI.
+6. Users can choose to delete saved notes by swiping them left or right when required.
+7. Deleted notes are transferred to trash and the user can restore them by long pressing on them or delete them from there permanently by swiping them.
 
-## Installation
-Clone this repository and import into **Android Studio**
+# Download the App
+[![Generic badge](https://img.shields.io/badge/Noted-Download-<COLOR>.svg)]()
+
+# Project Structure
 ```bash
-git clone https://github.com/nakshatra-bazukaa/Noted.git
+.
+└── bazukaa
+    └── nakshatra
+        └── noted
+            ├── adapter
+            │   ├── NoteAdapter.java
+            │   └── TrashNoteAdapter.java
+            ├── db
+            │   ├── dao
+            │   │   ├── NoteDao.java
+            │   │   └── TrashNoteDao.java
+            │   ├── entity
+            │   │   ├── Note.java
+            │   │   └── TrashNote.java
+            │   ├── NoteDatabase.java
+            │   └── TrashNoteDatabase.java
+            ├── repository
+            │   ├── NoteRepository.java
+            │   └── utils
+            │       ├── NoteAsyncTask.java
+            │       └── TrashNoteAsyncTask.java
+            ├── ui
+            │   ├── displaynotes
+            │   │   └── NotesActivity.java
+            │   ├── displaytrashnotes
+            │   │   └── TrashNotesActivity.java
+            │   ├── makeeditnote
+            │   │   └── MakeEditNoteActivity.java
+            │   └── Splash.java
+            ├── viewmodel
+            │   ├── NoteViewModel.java
+            │   └── TrashNoteViewModel.java
+            └── viewmodelhelper
+                ├── NoteViewModelHelper.java
+                └── TrashViewModelHelper.java
+
 ```
 
 # Screenshots
@@ -19,10 +62,6 @@ git clone https://github.com/nakshatra-bazukaa/Noted.git
 <img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/SS/Screenshot_20200629-221733%7E2.png" height="360" width="250">
 <img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/SS/Screenshot_20200629-221810%7E2.png" height="360" width="250">
 
-# What does this app do?
-It is an open source Android application that allows people to take notes. 
-It have many cool gesture features to handle the created noted in a fun way, like swipe to delete and long press to restore notes from trash.
-
 # Contributions
 Contributions are welcome.
 1. Submit an [issue](https://github.com/nakshatra-bazukaa/Noted/issues) describing your proposed fix or feature.
@@ -31,3 +70,9 @@ Contributions are welcome.
 4. Ensure your code is properly tested.
 5. Ensure your commits follow the **standard commit message style**
 6. Submit a pull request.
+
+## Installation
+Clone this repository and import into **Android Studio**
+```bash
+git clone https://github.com/nakshatra-bazukaa/Noted.git
+```
