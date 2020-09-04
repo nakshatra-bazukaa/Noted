@@ -1,7 +1,6 @@
-# Noted
+<img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/Noted%20icons/0.75x/Asset%204ldpi.png" align="right" height="150" width="150">
 
-# App Icon
-<img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/Noted%20icons/0.75x/Asset%204ldpi.png" height="100" width="100">
+# Noted - A note taking app [![Generic badge](https://img.shields.io/badge/Noted-Download-<COLOR>.svg)]()
 
 # Description
 A note taking app implementing room persistence library, live data and MVVM architecture.
