@@ -1,6 +1,6 @@
 <img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/Noted%20icons/0.75x/Asset%204ldpi.png" align="right" height="150" width="150">
 
-# Noted - A note taking app [![Generic badge](https://img.shields.io/badge/Noted-Download-<COLOR>.svg)]()
+# Noted - A note taking app [![Generic badge](https://img.shields.io/badge/Noted-Download-<COLOR>.svg)](https://drive.google.com/file/d/1lAD7i6T1oYy2wtPtzCulg1kwd-e7oiL-/view?usp=sharing)
 
 # Project Description
 1. It is an open-source Android application that allows people to take notes, app code is implemented in Java.
@@ -12,7 +12,7 @@
 7. Deleted notes are transferred to trash and the user can restore them by long pressing on them or delete them from there permanently by swiping them.
 
 # Download the App
-[![Generic badge](https://img.shields.io/badge/Noted-Download-<COLOR>.svg)]()
+[![Generic badge](https://img.shields.io/badge/Noted-Download-<COLOR>.svg)](https://drive.google.com/file/d/1lAD7i6T1oYy2wtPtzCulg1kwd-e7oiL-/view?usp=sharing)
 
 # Project Structure
 ```bash
