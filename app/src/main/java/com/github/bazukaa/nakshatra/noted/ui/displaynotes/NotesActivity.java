@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class NotesActivity extends AppCompatActivity {
+
+    // Shared preference
+    public static final String SHARED_PREFERENCE = "sharedPrefs";
+    public static final String SET_GRID = "set grid";
+
+    // Variables for Shared Preferences
+    private boolean isGrid;
+
+    // to set grid/list mode
+    public static final boolean GRID_MODE = true;
+    public static final boolean LIST_MODE = false;
 
     public static final int ADD_NOTE_REQUEST = 1;
     public static final int EDIT_NOTE_REQUEST = 2;
@@ -66,8 +78,13 @@ public class NotesActivity extends AppCompatActivity {
 
         NoteAdapter adapter = new NoteAdapter();
         noteRecyclerView.setAdapter(adapter);
-        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        noteRecyclerView.setLayoutManager(layoutManager);
+
+        // Setting grid/list mode
+        loadData();
+        if(isGrid)
+            setGrid();
+        else
+            setList();
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
         noteViewModel.getNotes().observe(this, notes -> adapter.setNotes(notes));
@@ -162,6 +179,15 @@ public class NotesActivity extends AppCompatActivity {
         grid = menu.findItem(R.id.set_layout_grid);
         list = menu.findItem(R.id.set_layout_list);
         trash = menu.findItem(R.id.trash);
+
+        // To initially set list/grid view
+        if(isGrid){
+            grid.setVisible(false);
+            list.setVisible(true);
+        }else{
+            grid.setVisible(true);
+            list.setVisible(false);
+        }
         return true;
     }
 
@@ -169,14 +195,14 @@ public class NotesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.set_layout_grid:
-                layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-                noteRecyclerView.setLayoutManager(layoutManager);
+                setGrid();
+                saveData(GRID_MODE);
                 grid.setVisible(false);
                 list.setVisible(true);
                 return true;
             case R.id.set_layout_list:
-                layoutManager = new LinearLayoutManager(NotesActivity.this);
-                noteRecyclerView.setLayoutManager(layoutManager);
+                setList();
+                saveData(LIST_MODE);
                 grid.setVisible(true);
                 list.setVisible(false);
                 return true;
@@ -187,6 +213,29 @@ public class NotesActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    // To set to grid mode
+    private void setGrid(){
+        layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        noteRecyclerView.setLayoutManager(layoutManager);
+    }
+    // To set to list mode
+    private void setList(){
+        layoutManager = new LinearLayoutManager(NotesActivity.this);
+        noteRecyclerView.setLayoutManager(layoutManager);
+    }
+    // Save data to shared preference
+    public void saveData(boolean data){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(SET_GRID, data);
+        editor.apply();
+    }
+    // Load data from shared preference
+    public void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCE, MODE_PRIVATE);
+        isGrid = sharedPreferences.getBoolean(SET_GRID, true);
     }
 
 }

@@ -22,11 +22,8 @@ import butterknife.ButterKnife;
 public class MakeEditNoteActivity extends AppCompatActivity {
 
     public static final String EXTRA_TITLE = "com.github.bazukaa.nakshatra.noted.EXTRA_TITLE";
-
     public static final String EXTRA_NOTE = "com.github.bazukaa.nakshatra.noted.EXTRA_NOTE";
-
     public static final String EXTRA_TIMESTAMP = "com.github.bazukaa.nakshatra.noted.EXTRA_TIMESTAMP";
-
     public static final String EXTRA_ID = "com.github.bazukaa.nakshatra.noted.EXTRA_ID";
 
 
