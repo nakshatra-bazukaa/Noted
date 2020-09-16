@@ -38,28 +38,18 @@ import butterknife.OnClick;
 
 public class NotesActivity extends AppCompatActivity {
 
-    // Shared preference
-//    public static final String SHARED_PREFERENCE = "sharedPrefs";
-//    public static final String SET_GRID = "set grid";
-
-    // Variables for Shared Preferences
-    private boolean isGrid;
-
-    // to set grid/list mode
-//    public static final boolean GRID_MODE = true;
-//    public static final boolean LIST_MODE = false;
-
     public static final int ADD_NOTE_REQUEST = 1;
     public static final int EDIT_NOTE_REQUEST = 2;
 
     private NoteViewModel noteViewModel;
+    private PreferenceManager preferenceManager;
+    private boolean isGrid;
 
     private RecyclerView.LayoutManager layoutManager;
 
     private MenuItem grid;
     private MenuItem list;
     private MenuItem trash;
-    private PreferenceManager preferenceManager;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -83,10 +73,8 @@ public class NotesActivity extends AppCompatActivity {
 
         // Setting grid/list mode
         isGrid = preferenceManager.getBoolean(Constants.KEY_GRID_STATE);
-        if(isGrid)
-            setGrid();
-        else
-            setList();
+        if(isGrid) setGrid();
+        else setList();
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
         noteViewModel.getNotes().observe(this, notes -> adapter.setNotes(notes));
@@ -95,9 +83,7 @@ public class NotesActivity extends AppCompatActivity {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) { return false; }
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Note note = adapter.getNotePosition(viewHolder.getAdapterPosition());
@@ -126,7 +112,6 @@ public class NotesActivity extends AppCompatActivity {
             startActivityForResult(intent, EDIT_NOTE_REQUEST);
         });
     }
-
     //To create a new note
     @OnClick(R.id.act_main_fab_add)
     public void onFabClicked() {
@@ -198,13 +183,13 @@ public class NotesActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.set_layout_grid:
                 setGrid();
-                saveData(GRID_MODE);
+                preferenceManager.putBoolean(Constants.KEY_GRID_STATE, Constants.GRID_MODE);
                 grid.setVisible(false);
                 list.setVisible(true);
                 return true;
             case R.id.set_layout_list:
                 setList();
-                saveData(LIST_MODE);
+                preferenceManager.putBoolean(Constants.KEY_GRID_STATE, Constants.LIST_MODE);
                 grid.setVisible(true);
                 list.setVisible(false);
                 return true;
@@ -216,7 +201,6 @@ public class NotesActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
     // To set to grid mode
     private void setGrid(){
         layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
@@ -227,16 +211,4 @@ public class NotesActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(NotesActivity.this);
         noteRecyclerView.setLayoutManager(layoutManager);
     }
-    // Save data to shared preference
-    public void saveData(boolean data){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCE, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(SET_GRID, data);
-        editor.apply();
-    }
-    // Load data from shared preference
-    public void loadData(){
-        isGrid = sharedPreferences.getBoolean(SET_GRID, true);
-    }
-
 }
