@@ -24,6 +24,8 @@ import com.github.bazukaa.nakshatra.noted.ui.displaytrashnotes.TrashNotesActivit
 import com.github.bazukaa.nakshatra.noted.ui.makeeditnote.MakeEditNoteActivity;
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
+import com.github.bazukaa.nakshatra.noted.util.Constants;
+import com.github.bazukaa.nakshatra.noted.util.PreferenceManager;
 import com.github.bazukaa.nakshatra.noted.viewmodel.NoteViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -37,15 +39,15 @@ import butterknife.OnClick;
 public class NotesActivity extends AppCompatActivity {
 
     // Shared preference
-    public static final String SHARED_PREFERENCE = "sharedPrefs";
-    public static final String SET_GRID = "set grid";
+//    public static final String SHARED_PREFERENCE = "sharedPrefs";
+//    public static final String SET_GRID = "set grid";
 
     // Variables for Shared Preferences
     private boolean isGrid;
 
     // to set grid/list mode
-    public static final boolean GRID_MODE = true;
-    public static final boolean LIST_MODE = false;
+//    public static final boolean GRID_MODE = true;
+//    public static final boolean LIST_MODE = false;
 
     public static final int ADD_NOTE_REQUEST = 1;
     public static final int EDIT_NOTE_REQUEST = 2;
@@ -57,6 +59,7 @@ public class NotesActivity extends AppCompatActivity {
     private MenuItem grid;
     private MenuItem list;
     private MenuItem trash;
+    private PreferenceManager preferenceManager;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -72,15 +75,14 @@ public class NotesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
         ButterKnife.bind(this);
-
-        // Setting up the toolbar
         setSupportActionBar(toolbar);
+        preferenceManager = new PreferenceManager(this);
 
         NoteAdapter adapter = new NoteAdapter();
         noteRecyclerView.setAdapter(adapter);
 
         // Setting grid/list mode
-        loadData();
+        isGrid = preferenceManager.getBoolean(Constants.KEY_GRID_STATE);
         if(isGrid)
             setGrid();
         else
@@ -234,7 +236,6 @@ public class NotesActivity extends AppCompatActivity {
     }
     // Load data from shared preference
     public void loadData(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCE, MODE_PRIVATE);
         isGrid = sharedPreferences.getBoolean(SET_GRID, true);
     }
 
