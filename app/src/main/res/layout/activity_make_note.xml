@@ -8,52 +8,196 @@
 
     <include
         android:id="@+id/act_makeNote_toolbar"
-        layout="@layout/toolbar"
-        />
+        layout="@layout/toolbar" />
 
     <EditText
         android:id="@+id/act_makeNote_et_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/title"
-        android:background="@null"
-        app:layout_constraintTop_toBottomOf="@id/act_makeNote_toolbar"
-        android:fontFamily="sans-serif"
-        android:textSize="22sp"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:inputType="textMultiLine|textCapSentences" />
+        android:background="@null"
+        android:fontFamily="sans-serif"
+        android:hint="@string/title"
+        android:inputType="textMultiLine|textCapSentences"
+        android:textSize="22sp"
+        app:layout_constraintTop_toBottomOf="@id/act_makeNote_toolbar" />
 
     <EditText
         android:id="@+id/act_makeNote_et_note"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="20dp"
+        android:autoLink="all"
         android:background="@null"
         android:fontFamily="sans-serif"
         android:gravity="left|top|center"
         android:hint="@string/note"
         android:inputType="textMultiLine|textCapSentences"
         android:linksClickable="true"
-        android:autoLink="all"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/act_makeNote_tv_time"
+        app:layout_constraintBottom_toTopOf="@+id/layout_options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/act_makeNote_et_title" />
-    <TextView
-        android:id="@+id/act_makeNote_tv_time"
+
+    <LinearLayout
+        android:id="@+id/layout_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/background_options"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:padding="16dp"
-        android:fontFamily="sans-serif"
-        android:textSize="13sp"/>
+        app:layout_constraintBottom_toTopOf="@+id/act_makeNote_ll_bottom_options"
+        app:layout_constraintTop_toBottomOf="@+id/act_makeNote_et_note">
+        <LinearLayout
+            android:id="@+id/layout_options_note_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/color_1"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:background="@drawable/bg_note_color_1" />
+
+                <ImageView
+                    android:id="@+id/color_img_1"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/ic_save"
+                    android:tint="@color/colorAccent" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/color_2"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:background="@drawable/bg_note_color_2" />
+
+                <ImageView
+                    android:id="@+id/color_img_2"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:tint="@color/colorAccent" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/color_3"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:background="@drawable/bg_note_color_3" />
+
+                <ImageView
+                    android:id="@+id/color_img_3"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:tint="@color/colorAccent" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/color_4"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:background="@drawable/bg_note_color_4" />
+
+                <ImageView
+                    android:id="@+id/color_img_4"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:tint="@color/colorAccent" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/color_5"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:background="@drawable/bg_note_color_5" />
+
+                <ImageView
+                    android:id="@+id/color_img_5"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:tint="@color/colorPrimary" />
+            </FrameLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/act_makeNote_ll_bottom_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/act_makeNote_tv_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:padding="16dp"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@+id/act_makeNote_img_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/act_makeNote_img_options"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:src="@drawable/ic_more_vert"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

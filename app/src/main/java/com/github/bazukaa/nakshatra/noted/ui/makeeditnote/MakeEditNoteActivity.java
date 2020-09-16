@@ -10,14 +10,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.bazukaa.nakshatra.noted.R;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MakeEditNoteActivity extends AppCompatActivity {
 
@@ -40,6 +45,9 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     @BindView(R.id.act_makeNote_tv_time)
     TextView timeTextView;
 
+    @BindView(R.id.act_makeNote_img_options)
+    ImageView optionsMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +67,8 @@ public class MakeEditNoteActivity extends AppCompatActivity {
             noteEditText.setText(intent.getStringExtra(EXTRA_NOTE));
             timeTextView.setText(intent.getStringExtra(EXTRA_TIMESTAMP));
         }
+
+//        initOptions();
     }
 
     private void saveNote(){
@@ -110,7 +120,15 @@ public class MakeEditNoteActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
+    @OnClick(R.id.act_makeNote_img_options)
+    public void onOptionsClicked(){
+        LinearLayout linearLayout = findViewById(R.id.layout_options);
+        if(linearLayout.getVisibility() == View.GONE)
+            linearLayout.setVisibility(View.VISIBLE);
+        else
+            linearLayout.setVisibility(View.GONE);
+    }
+
 }

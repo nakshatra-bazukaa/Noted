@@ -3,4 +3,5 @@
     <string name="title">Title</string>
     <string name="note">Type note here...</string>
     <string name="search_notes">Search Notes</string>
+    <string name="options">Options</string>
 </resources>
