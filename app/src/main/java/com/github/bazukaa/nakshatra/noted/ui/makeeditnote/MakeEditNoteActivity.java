@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.bazukaa.nakshatra.noted.R;
+import com.github.bazukaa.nakshatra.noted.util.Constants;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import butterknife.BindView;
@@ -86,6 +88,16 @@ public class MakeEditNoteActivity extends AppCompatActivity {
             titleEditText.setText(intent.getStringExtra(EXTRA_TITLE));
             noteEditText.setText(intent.getStringExtra(EXTRA_NOTE));
             timeTextView.setText(intent.getStringExtra(EXTRA_TIMESTAMP));
+            selectedNoteColor = intent.getStringExtra(EXTRA_COLOR);
+
+            if(selectedNoteColor == null)
+                selectedNoteColor = Constants.COLOR_1;
+            if(selectedNoteColor.equals(Constants.COLOR_1)) color1Selected();
+            else if (selectedNoteColor.equals(Constants.COLOR_2)) color2Selected();
+            else if (selectedNoteColor.equals(Constants.COLOR_3)) color3Selected();
+            else if (selectedNoteColor.equals(Constants.COLOR_4)) color4Selected();
+            else if (selectedNoteColor.equals(Constants.COLOR_5)) color5Selected();
+
         }
     }
 
@@ -102,6 +114,7 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_NOTE, note);
         data.putExtra(EXTRA_TIMESTAMP, timeStamp);
+        data.putExtra(EXTRA_COLOR, selectedNoteColor);
 
         //To edit the note
         int id = getIntent().getIntExtra(EXTRA_ID, -1);
@@ -123,48 +136,23 @@ public class MakeEditNoteActivity extends AppCompatActivity {
 
     @OnClick(R.id.color_1)
     public void view1Clicked(){
-        selectedNoteColor = "#FFFFFF";
-        imageColor1.setImageResource(R.drawable.ic_save);
-        imageColor2.setImageResource(0);
-        imageColor3.setImageResource(0);
-        imageColor4.setImageResource(0);
-        imageColor5.setImageResource(0);
+        color1Selected();
     }
     @OnClick(R.id.color_2)
     public void view2Clicked(){
-        selectedNoteColor = "#FDBE3B";
-        imageColor1.setImageResource(0);
-        imageColor2.setImageResource(R.drawable.ic_save);
-        imageColor3.setImageResource(0);
-        imageColor4.setImageResource(0);
-        imageColor5.setImageResource(0);
+        color2Selected();
     }
     @OnClick(R.id.color_3)
     public void view3Clicked(){
-        selectedNoteColor = "#FF4842";
-        imageColor1.setImageResource(0);
-        imageColor2.setImageResource(0);
-        imageColor3.setImageResource(R.drawable.ic_save);
-        imageColor4.setImageResource(0);
-        imageColor5.setImageResource(0);
+        color3Selected();
     }
     @OnClick(R.id.color_4)
     public void view4Clicked(){
-        selectedNoteColor = "#3A52FC";
-        imageColor1.setImageResource(0);
-        imageColor2.setImageResource(0);
-        imageColor3.setImageResource(0);
-        imageColor4.setImageResource(R.drawable.ic_save);
-        imageColor5.setImageResource(0);
+        color4Selected();
     }
     @OnClick(R.id.color_5)
     public void view5Clicked(){
-        selectedNoteColor = "#000000";
-        imageColor1.setImageResource(0);
-        imageColor2.setImageResource(0);
-        imageColor3.setImageResource(0);
-        imageColor4.setImageResource(0);
-        imageColor5.setImageResource(R.drawable.ic_save);
+        color5Selected();
     }
 
     @Override
@@ -193,6 +181,51 @@ public class MakeEditNoteActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void color1Selected(){
+        selectedNoteColor = Constants.COLOR_1;
+        imageColor1.setImageResource(R.drawable.ic_save);
+        imageColor2.setImageResource(0);
+        imageColor3.setImageResource(0);
+        imageColor4.setImageResource(0);
+        imageColor5.setImageResource(0);
+    }
+
+    private void color2Selected(){
+        selectedNoteColor = Constants.COLOR_2;
+        imageColor1.setImageResource(0);
+        imageColor2.setImageResource(R.drawable.ic_save);
+        imageColor3.setImageResource(0);
+        imageColor4.setImageResource(0);
+        imageColor5.setImageResource(0);
+    }
+
+    private void color3Selected(){
+        selectedNoteColor = Constants.COLOR_3;
+        imageColor1.setImageResource(0);
+        imageColor2.setImageResource(0);
+        imageColor3.setImageResource(R.drawable.ic_save);
+        imageColor4.setImageResource(0);
+        imageColor5.setImageResource(0);
+    }
+
+    private void color4Selected(){
+        selectedNoteColor = Constants.COLOR_4;
+        imageColor1.setImageResource(0);
+        imageColor2.setImageResource(0);
+        imageColor3.setImageResource(0);
+        imageColor4.setImageResource(R.drawable.ic_save);
+        imageColor5.setImageResource(0);
+    }
+
+    private void color5Selected(){
+        selectedNoteColor = Constants.COLOR_5;
+        imageColor1.setImageResource(0);
+        imageColor2.setImageResource(0);
+        imageColor3.setImageResource(0);
+        imageColor4.setImageResource(0);
+        imageColor5.setImageResource(R.drawable.ic_save);
     }
 
 }

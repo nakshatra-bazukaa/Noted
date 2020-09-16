@@ -88,6 +88,7 @@ public class NotesActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Note note = adapter.getNotePosition(viewHolder.getAdapterPosition());
                 TrashNote trashNote = new TrashNote(note.getTitle(), note.getNote(), note.getTimeStamp());
+                trashNote.setColor(note.getColor());
                 noteViewModel.insert(trashNote);
                 noteViewModel.delete(note);
                 Toast.makeText(NotesActivity.this, "Note moved to trash", Toast.LENGTH_SHORT).show();
@@ -100,6 +101,7 @@ public class NotesActivity extends AppCompatActivity {
             intent.putExtra(MakeEditNoteActivity.EXTRA_ID, note.getId());
             intent.putExtra(MakeEditNoteActivity.EXTRA_TITLE, note.getTitle());
             intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, note.getNote());
+            intent.putExtra(MakeEditNoteActivity.EXTRA_COLOR, note.getColor());
 
             //Formatting currentTimeMillis in desired form before sending to MakeEditNoteActivity
             long currentTimeMillis = note.getTimeStamp();
@@ -127,8 +129,10 @@ public class NotesActivity extends AppCompatActivity {
             String title = data.getStringExtra(MakeEditNoteActivity.EXTRA_TITLE);
             String note = data.getStringExtra(MakeEditNoteActivity.EXTRA_NOTE);
             long timeStamp = data.getLongExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, 10000);
+            String color = data.getStringExtra(MakeEditNoteActivity.EXTRA_COLOR);
 
             Note notedNote = new Note(title, note, timeStamp);
+            notedNote.setColor(color);
             noteViewModel.insert(notedNote);
 
             Toast.makeText(this, "Note Saved successfully", Toast.LENGTH_SHORT).show();
@@ -146,8 +150,10 @@ public class NotesActivity extends AppCompatActivity {
             String title = data.getStringExtra(MakeEditNoteActivity.EXTRA_TITLE);
             String note = data.getStringExtra(MakeEditNoteActivity.EXTRA_NOTE);
             long timeStamp = data.getLongExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, 10000);
+            String color = data.getStringExtra(MakeEditNoteActivity.EXTRA_COLOR);
 
             Note notedNote = new Note(title, note, timeStamp);
+            notedNote.setColor(color);
             notedNote.setId(id);
             noteViewModel.update(notedNote);
 

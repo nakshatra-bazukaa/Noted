@@ -59,12 +59,7 @@ public class TrashNotesActivity extends AppCompatActivity {
         trashNoteRecyclerView.setLayoutManager(layoutManager);
 
         trashNoteViewModel = ViewModelProviders.of(this).get(TrashNoteViewModel.class);
-        trashNoteViewModel.getTrashNotes().observe(this, new Observer<List<TrashNote>>() {
-            @Override
-            public void onChanged(List<TrashNote> trashNotes) {
-                trashNoteAdapter.setTrashNotes(trashNotes);
-            }
-        });
+        trashNoteViewModel.getTrashNotes().observe(this, trashNotes -> trashNoteAdapter.setTrashNotes(trashNotes));
 
         //To delete a note
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -82,35 +77,31 @@ public class TrashNotesActivity extends AppCompatActivity {
         }).attachToRecyclerView(trashNoteRecyclerView);
 
         //To Edit a note
-        trashNoteAdapter.setOnTrashNoteItemClickListener(new TrashNoteAdapter.OnTrashNoteItemClickListener() {
-            @Override
-            public void onTrashNoteItemClick(TrashNote trashNote) {
-                Intent intent = new Intent(TrashNotesActivity.this, MakeEditNoteActivity.class);
-                intent.putExtra(MakeEditNoteActivity.EXTRA_ID, trashNote.getId());
-                intent.putExtra(MakeEditNoteActivity.EXTRA_TITLE, trashNote.getTitle());
-                intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, trashNote.getNote());
+        trashNoteAdapter.setOnTrashNoteItemClickListener(trashNote -> {
+            Intent intent = new Intent(TrashNotesActivity.this, MakeEditNoteActivity.class);
+            intent.putExtra(MakeEditNoteActivity.EXTRA_ID, trashNote.getId());
+            intent.putExtra(MakeEditNoteActivity.EXTRA_TITLE, trashNote.getTitle());
+            intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, trashNote.getNote());
+            intent.putExtra(MakeEditNoteActivity.EXTRA_COLOR, trashNote.getColor());
 
-                //Formatting currentTimeMillis in desired form before sending to MakeEditNoteActivity
-                long currentTimeMillis = trashNote.getTimestamp();
-                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa MMM dd, yyyy");
-                Date resultdate = new Date(currentTimeMillis);
-                String timeStamp = "Last changed";
-                timeStamp = timeStamp + " " + String.valueOf(sdf.format(resultdate));
-                intent.putExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, timeStamp);
+            //Formatting currentTimeMillis in desired form before sending to MakeEditNoteActivity
+            long currentTimeMillis = trashNote.getTimestamp();
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa MMM dd, yyyy");
+            Date resultdate = new Date(currentTimeMillis);
+            String timeStamp = "Last changed";
+            timeStamp = timeStamp + " " + String.valueOf(sdf.format(resultdate));
+            intent.putExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, timeStamp);
 
-                startActivityForResult(intent, EDIT_TRASH_NOTE_REQUEST);
-            }
+            startActivityForResult(intent, EDIT_TRASH_NOTE_REQUEST);
         });
 
         //To Restore a note
-        trashNoteAdapter.setOnTrashNoteItemLongClickListener(new TrashNoteAdapter.OnTrashNoteItemLongClickListener() {
-            @Override
-            public void onTrashNoteItemLongClick(TrashNote trashNote) {
-                Note restoredNote = new Note(trashNote.getId(), trashNote.getTitle(), trashNote.getNote(), trashNote.getTimestamp());
-                trashNoteViewModel.insert(restoredNote);
-                trashNoteViewModel.delete(trashNote);
-                Toast.makeText(TrashNotesActivity.this, "Note Restored", Toast.LENGTH_SHORT).show();
-            }
+        trashNoteAdapter.setOnTrashNoteItemLongClickListener(trashNote -> {
+            Note restoredNote = new Note(trashNote.getId(), trashNote.getTitle(), trashNote.getNote(), trashNote.getTimestamp());
+            restoredNote.setColor(trashNote.getColor());
+            trashNoteViewModel.insert(restoredNote);
+            trashNoteViewModel.delete(trashNote);
+            Toast.makeText(TrashNotesActivity.this, "Note Restored", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -129,8 +120,10 @@ public class TrashNotesActivity extends AppCompatActivity {
             String title = data.getStringExtra(MakeEditNoteActivity.EXTRA_TITLE);
             String note = data.getStringExtra(MakeEditNoteActivity.EXTRA_NOTE);
             long timeStamp = data.getLongExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, 10000);
+            String color = data.getStringExtra(MakeEditNoteActivity.EXTRA_COLOR);
 
             TrashNote notedTrashNote = new TrashNote(title, note, timeStamp);
+            notedTrashNote.setColor(color);
             notedTrashNote.setId(id);
             trashNoteViewModel.update(notedTrashNote);
 

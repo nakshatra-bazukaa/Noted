@@ -1,14 +1,18 @@
 package com.github.bazukaa.nakshatra.noted.adapter;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
+import com.github.bazukaa.nakshatra.noted.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +43,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         String timeStamp = "Last changed";
         timeStamp = timeStamp + " " + String.valueOf(sdf.format(resultdate));
         holder.timeTv.setText(timeStamp);
+
+        // Card bg color
+        if(note.getColor() != null) {
+            holder.noteCard.setBackgroundColor(Color.parseColor(note.getColor()));;
+        }
+        else {
+            holder.noteCard.setBackgroundColor(Color.parseColor(Constants.COLOR_1));
+        }
     }
 
     @Override
@@ -49,6 +61,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
     public class NoteHolder extends RecyclerView.ViewHolder {
 
         private TextView titleTv, noteTv, timeTv;
+        private CardView noteCard;
 
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -56,6 +69,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             titleTv = itemView.findViewById(R.id.act_main_tv_title);
             noteTv = itemView.findViewById(R.id.act_main_tv_note);
             timeTv = itemView.findViewById(R.id.act_main_tv_time);
+            noteCard = itemView.findViewById(R.id.note_item_card);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();

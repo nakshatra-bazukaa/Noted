@@ -1,15 +1,18 @@
 package com.github.bazukaa.nakshatra.noted.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
+import com.github.bazukaa.nakshatra.noted.util.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +45,13 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
         timeStamp = timeStamp+" "+String.valueOf(sdf.format(resultdate));
         holder.timeTv.setText(timeStamp);
 
+        // Card bg color
+        if(trashNote.getColor() != null) {
+            holder.noteCard.setBackgroundColor(Color.parseColor(trashNote.getColor()));;
+        }
+        else {
+            holder.noteCard.setBackgroundColor(Color.parseColor(Constants.COLOR_1));
+        }
 
     }
 
@@ -53,6 +63,8 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
     public class TrashNoteHolder extends RecyclerView.ViewHolder{
 
         private TextView titleTv, noteTv, timeTv;
+        private CardView noteCard;
+
 
         public TrashNoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,6 +72,7 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
             titleTv = itemView.findViewById(R.id.act_main_tv_title);
             noteTv = itemView.findViewById(R.id.act_main_tv_note);
             timeTv = itemView.findViewById(R.id.act_main_tv_time);
+            noteCard = itemView.findViewById(R.id.note_item_card);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
