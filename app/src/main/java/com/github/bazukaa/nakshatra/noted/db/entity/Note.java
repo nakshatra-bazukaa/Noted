@@ -1,20 +1,35 @@
 package com.github.bazukaa.nakshatra.noted.db.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "note_table")
-public class Note {
+public class Note implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    @ColumnInfo(name = "title")
     private String title;
 
+    @ColumnInfo(name = "note_text")
     private String note;
 
+    @ColumnInfo(name = "date_time")
     private long timeStamp;
+
+    @ColumnInfo(name = "image_path")
+    private String imgPath;
+
+    @ColumnInfo(name = "color")
+    private String color;
+
+    @ColumnInfo(name = "web_link")
+    private String webLink;
 
     @Ignore
     public Note(int id, String title, String note, long timeStamp) {
@@ -45,4 +60,28 @@ public class Note {
     public long getTimeStamp() { return timeStamp; }
 
     public void setTimeStamp(int timeStamp) { this.timeStamp = timeStamp; }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getWebLink() {
+        return webLink;
+    }
+
+    public void setWebLink(String webLink) {
+        this.webLink = webLink;
+    }
 }
