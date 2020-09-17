@@ -1,9 +1,11 @@
 package com.github.bazukaa.nakshatra.noted.adapter;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,11 +48,13 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
         holder.timeTv.setText(timeStamp);
 
         // Card bg color
+        GradientDrawable gradientDrawable = (GradientDrawable) holder.noteCard.getBackground();
+
         if(trashNote.getColor() != null) {
-            holder.noteCard.setBackgroundColor(Color.parseColor(trashNote.getColor()));;
+            gradientDrawable.setColor(Color.parseColor(trashNote.getColor()));
         }
         else {
-            holder.noteCard.setBackgroundColor(Color.parseColor(Constants.COLOR_1));
+            gradientDrawable.setColor(Color.parseColor(Constants.COLOR_1));
         }
 
     }
@@ -63,7 +67,7 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
     public class TrashNoteHolder extends RecyclerView.ViewHolder{
 
         private TextView titleTv, noteTv, timeTv;
-        private CardView noteCard;
+        private LinearLayout noteCard;
 
 
         public TrashNoteHolder(@NonNull View itemView) {

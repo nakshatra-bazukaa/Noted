@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -45,11 +46,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         holder.timeTv.setText(timeStamp);
 
         // Card bg color
+        GradientDrawable gradientDrawable = (GradientDrawable) holder.noteCard.getBackground();
+
         if(note.getColor() != null) {
-            holder.noteCard.setBackgroundColor(Color.parseColor(note.getColor()));;
+            gradientDrawable.setColor(Color.parseColor(note.getColor()));
         }
         else {
-            holder.noteCard.setBackgroundColor(Color.parseColor(Constants.COLOR_1));
+            gradientDrawable.setColor(Color.parseColor(Constants.COLOR_1));
         }
     }
 
@@ -61,7 +64,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
     public class NoteHolder extends RecyclerView.ViewHolder {
 
         private TextView titleTv, noteTv, timeTv;
-        private CardView noteCard;
+        private LinearLayout noteCard;
 
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
