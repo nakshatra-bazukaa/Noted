@@ -305,7 +305,9 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == Constants.REQUEST_CODE_SELECT_IMAGE && requestCode == RESULT_OK){
+//        if(requestCode == Constants.REQUEST_CODE_SELECT_IMAGE)
+//            Toast.makeText(this, "Shit", Toast.LENGTH_SHORT).show();
+        if(requestCode == Constants.REQUEST_CODE_SELECT_IMAGE && resultCode == RESULT_OK){
             if(data != null){
                 Uri selectedImageUri = data.getData();
                 if(selectedImageUri != null){
@@ -313,13 +315,13 @@ public class MakeEditNoteActivity extends AppCompatActivity {
                         InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         imageNote.setImageBitmap(bitmap);
+                        imageNote.setVisibility(View.VISIBLE);
                         Toast.makeText(this, "All set", Toast.LENGTH_SHORT).show();
                     } catch (FileNotFoundException e) {
                         Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
-            Toast.makeText(this, "Shit", Toast.LENGTH_SHORT).show();
         }
     }
 }
