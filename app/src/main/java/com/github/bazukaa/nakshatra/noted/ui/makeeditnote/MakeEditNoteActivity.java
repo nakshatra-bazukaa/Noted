@@ -135,6 +135,10 @@ public class MakeEditNoteActivity extends AppCompatActivity {
                 tvWebUrl.setText(webUrl);
                 webUrlLayout.setVisibility(View.VISIBLE);
             }
+        }else if(intent.hasExtra(EXTRA_WEB_LINK)){
+            webUrl = intent.getStringExtra(EXTRA_WEB_LINK);
+            tvWebUrl.setText(webUrl);
+            webUrlLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -144,6 +148,7 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         long timeStamp = System.currentTimeMillis();
 
         if(title.trim().isEmpty() && note.trim().isEmpty()){
+            Toast.makeText(this, "Provide a title or note message", Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -97,16 +97,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         >
-        <ImageView
-            android:id="@+id/act_notes_add_note"
-            android:layout_width="@dimen/_23sdp"
-            android:layout_height="@dimen/_23sdp"
-            android:src="@drawable/ic_add_outline" />
+
         <ImageView
             android:id="@+id/act_notes_add_image"
             android:layout_width="@dimen/_23sdp"
             android:layout_height="@dimen/_23sdp"
-            android:layout_marginStart="@dimen/_15sdp"
             android:src="@drawable/ic_image" />
         <ImageView
             android:id="@+id/act_notes_add_links"

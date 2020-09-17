@@ -2,6 +2,7 @@ package com.github.bazukaa.nakshatra.noted.ui.displaynotes;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
@@ -12,13 +13,18 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
@@ -67,6 +73,14 @@ public class NotesActivity extends AppCompatActivity {
 
     @BindView(R.id.act_notes_et_search)
     EditText inputSearch;
+
+    @BindView(R.id.act_notes_add_image)
+    ImageView quickImage;
+
+    @BindView(R.id.act_notes_add_links)
+    ImageView quickWebLink;
+
+    private AlertDialog dialogAddUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +160,48 @@ public class NotesActivity extends AppCompatActivity {
     public void onFabClicked() {
         Intent intent = new Intent(NotesActivity.this, MakeEditNoteActivity.class);
         startActivityForResult(intent, ADD_NOTE_REQUEST);
+    }
+    @OnClick(R.id.act_notes_add_image)
+    public void quickImageNote(){
+
+    }
+    @OnClick(R.id.act_notes_add_links)
+    public void quickWebLinkNote(){
+        if(dialogAddUrl == null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(NotesActivity.this);
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.layout_add_url,
+                    findViewById(R.id.layout_add_url_cl)
+            );
+            builder.setView(view);
+
+            dialogAddUrl = builder.create();
+            if(dialogAddUrl.getWindow() != null)
+                dialogAddUrl.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+            final EditText inputUrl = view.findViewById(R.id.layout_add_url_et_url);
+            inputUrl.requestFocus();
+            view.findViewById(R.id.layout_add_url_tv_add).setOnClickListener(v -> {
+                if(inputUrl.getText().toString().trim().isEmpty())
+                    Toast.makeText(NotesActivity.this, "Add Url", Toast.LENGTH_SHORT).show();
+                else if (!Patterns.WEB_URL.matcher(inputUrl.getText().toString()).matches())
+                    Toast.makeText(NotesActivity.this, "Enter valid Url", Toast.LENGTH_SHORT).show();
+                else{
+                    Intent intent = new Intent(NotesActivity.this, MakeEditNoteActivity.class);
+                    intent.putExtra(MakeEditNoteActivity.EXTRA_WEB_LINK, inputUrl.getText().toString());
+                    startActivityForResult(intent, ADD_NOTE_REQUEST);
+
+                    inputUrl.setText(null);
+                    dialogAddUrl.dismiss();
+                }
+
+            });
+
+            view.findViewById(R.id.layout_add_url_tv_cancel).setOnClickListener(v -> {
+                dialogAddUrl.dismiss();
+            });
+        }
+        dialogAddUrl.show();
     }
 
     @Override
