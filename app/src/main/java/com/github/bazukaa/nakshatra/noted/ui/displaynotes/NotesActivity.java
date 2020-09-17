@@ -89,6 +89,7 @@ public class NotesActivity extends AppCompatActivity {
                 Note note = adapter.getNotePosition(viewHolder.getAdapterPosition());
                 TrashNote trashNote = new TrashNote(note.getTitle(), note.getNote(), note.getTimeStamp());
                 trashNote.setColor(note.getColor());
+                trashNote.setWebLink(note.getWebLink());
                 noteViewModel.insert(trashNote);
                 noteViewModel.delete(note);
                 Toast.makeText(NotesActivity.this, "Note moved to trash", Toast.LENGTH_SHORT).show();
