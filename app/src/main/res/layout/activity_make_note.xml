@@ -54,6 +54,11 @@
             android:fontFamily="sans-serif"
             android:includeFontPadding="false"
             android:textSize="@dimen/_13ssp"/>
+        <ImageView
+            android:id="@+id/act_makeNote_img_delete_webLink"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_delete"/>
     </LinearLayout>
 
     <EditText

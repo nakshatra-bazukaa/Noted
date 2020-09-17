@@ -68,6 +68,8 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     LinearLayout webUrlLayout;
     @BindView(R.id.act_makeNote_tv_web_url)
     TextView tvWebUrl;
+    @BindView(R.id.act_makeNote_img_delete_webLink)
+    ImageView deleteWebUrl;
 
     @BindView(R.id.act_makeNote_img_options)
     ImageView optionsMenu;
@@ -101,6 +103,7 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     private String selectedNoteColor;
     private AlertDialog dialogAddUrl;
     private String webUrl;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -239,8 +242,11 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         }
         dialogAddUrl.show();
     }
-
-
+    @OnClick(R.id.act_makeNote_img_delete_webLink)
+    public void deleteWebLinkClicked(){
+        webUrlLayout.setVisibility(View.GONE);
+        webUrl = null;
+    }
 
     @Override
     public void onBackPressed() {
