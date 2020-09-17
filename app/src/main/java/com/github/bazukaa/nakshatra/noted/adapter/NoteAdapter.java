@@ -2,6 +2,8 @@ package com.github.bazukaa.nakshatra.noted.adapter;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +17,20 @@ import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 import com.github.bazukaa.nakshatra.noted.util.Constants;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
     private List<Note> notes = new ArrayList<>();
     private OnItemClickListener listener;
+    private Timer timer;
+    private List<Note> notesSource;
 
     @NonNull
     @Override
@@ -85,6 +92,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
     public void setNotes(List<Note> notes) {
         this.notes = notes;
+        notesSource = notes;
         notifyDataSetChanged();
     }
 
@@ -99,5 +107,35 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public void searchNotes(final String searchKeyword){
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(searchKeyword.trim().isEmpty()){
+                    notes = notesSource;
+                }else{
+                    ArrayList<Note> temp = new ArrayList<>();
+                    for(Note note : notes){
+                        if(note.getTitle().toLowerCase().contains(searchKeyword.toLowerCase()) || note.getNote().toLowerCase().contains(searchKeyword.toLowerCase())){
+                            temp.add(note);
+                        }
+                    }
+                    notes = temp;
+                }
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        }, 500);
+    }
+    public void cancelTimer(){
+        if(timer != null)
+            timer.cancel();
     }
 }

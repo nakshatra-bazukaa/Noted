@@ -13,9 +13,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
@@ -30,7 +33,9 @@ import com.github.bazukaa.nakshatra.noted.viewmodel.NoteViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,6 +64,9 @@ public class NotesActivity extends AppCompatActivity {
 
     @BindView(R.id.act_main_fab_add)
     FloatingActionButton addButton;
+
+    @BindView(R.id.act_notes_et_search)
+    EditText inputSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +122,23 @@ public class NotesActivity extends AppCompatActivity {
             intent.putExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, timeStamp);
 
             startActivityForResult(intent, EDIT_NOTE_REQUEST);
+        });
+
+        inputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.cancelTimer();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                adapter.searchNotes(s.toString());
+            }
         });
     }
     //To create a new note

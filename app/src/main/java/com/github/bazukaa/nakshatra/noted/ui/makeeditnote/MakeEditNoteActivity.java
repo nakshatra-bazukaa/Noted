@@ -103,7 +103,7 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     private String selectedNoteColor;
     private AlertDialog dialogAddUrl;
     private String webUrl;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
