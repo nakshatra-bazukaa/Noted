@@ -9,10 +9,10 @@ public class Constants {
     public static final boolean LIST_MODE = false;
 
     public static final String COLOR_1 = "#FFFFFF";
-    public static final String COLOR_2 = "#FDBE3B";
-    public static final String COLOR_3 = "#FF4842";
-    public static final String COLOR_4 = "#3A52FC";
-    public static final String COLOR_5 = "#000000";
+    public static final String COLOR_2 = "#FEDFA0";
+    public static final String COLOR_3 = "#FF928F";
+    public static final String COLOR_4 = "#8594FD";
+    public static final String COLOR_5 = "#4C4C4C";
 
     public static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     public static final int REQUEST_CODE_SELECT_IMAGE = 2;
