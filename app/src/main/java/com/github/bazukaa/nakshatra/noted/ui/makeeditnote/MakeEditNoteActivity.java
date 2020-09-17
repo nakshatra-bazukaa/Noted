@@ -217,6 +217,8 @@ public class MakeEditNoteActivity extends AppCompatActivity {
 
             final EditText inputUrl = view.findViewById(R.id.layout_add_url_et_url);
             inputUrl.requestFocus();
+            if(webUrl != null)
+                inputUrl.setText(webUrl);
 
             view.findViewById(R.id.layout_add_url_tv_add).setOnClickListener(v -> {
                 if(inputUrl.getText().toString().trim().isEmpty())
