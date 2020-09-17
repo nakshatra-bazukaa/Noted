@@ -24,6 +24,16 @@
         android:textSize="22sp"
         app:layout_constraintTop_toBottomOf="@id/act_makeNote_toolbar" />
 
+    <ImageView
+        android:id="@+id/act_makeNote_img_save_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toBottomOf="@+id/act_makeNote_et_title"
+        />
+
     <EditText
         android:id="@+id/act_makeNote_et_note"
         android:layout_width="0dp"
@@ -40,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@+id/layout_options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/act_makeNote_et_title" />
+        app:layout_constraintTop_toBottomOf="@+id/act_makeNote_img_save_image" />
 
     <LinearLayout
         android:id="@+id/layout_options"
@@ -53,6 +63,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/act_makeNote_ll_bottom_options"
         app:layout_constraintTop_toBottomOf="@+id/act_makeNote_et_note">
+        <LinearLayout
+            android:id="@+id/layout_options_note_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:src="@drawable/ic_image" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="sans-serif"
+                android:includeFontPadding="false"
+                android:text="@string/add_image"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12ssp"/>
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layout_options_note_color"
             android:layout_width="match_parent"
@@ -156,7 +188,6 @@
                     android:padding="@dimen/_10sdp"
                     android:tint="@color/colorPrimary" />
             </FrameLayout>
-
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

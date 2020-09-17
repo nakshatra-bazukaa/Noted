@@ -13,4 +13,7 @@ public class Constants {
     public static final String COLOR_3 = "#FF4842";
     public static final String COLOR_4 = "#3A52FC";
     public static final String COLOR_5 = "#000000";
+
+    public static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
+    public static final int REQUEST_CODE_SELECT_IMAGE = 2;
 }

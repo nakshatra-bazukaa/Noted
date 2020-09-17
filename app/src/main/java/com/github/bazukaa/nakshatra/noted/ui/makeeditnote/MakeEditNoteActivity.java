@@ -1,13 +1,22 @@
 package com.github.bazukaa.nakshatra.noted.ui.makeeditnote;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +31,9 @@ import android.widget.Toast;
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.util.Constants;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,9 +56,13 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     EditText noteEditText;
     @BindView(R.id.act_makeNote_tv_time)
     TextView timeTextView;
+    @BindView(R.id.act_makeNote_img_save_image)
+    ImageView imageNote;
 
     @BindView(R.id.act_makeNote_img_options)
     ImageView optionsMenu;
+    @BindView(R.id.layout_options_note_image)
+    LinearLayout saveImage;
 
     @BindView(R.id.color_img_1)
     ImageView imageColor1;
@@ -154,11 +170,19 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     public void view5Clicked(){
         color5Selected();
     }
+    @OnClick(R.id.layout_options_note_image)
+    public void saveImageClicked(){
+        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MakeEditNoteActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.REQUEST_CODE_STORAGE_PERMISSION);
+        }else{
+            selectImage();
+        }
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
-        saveNote();
+//        saveNote();
     }
 
     @Override
@@ -227,5 +251,42 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         imageColor4.setImageResource(0);
         imageColor5.setImageResource(R.drawable.ic_save);
     }
+    private void selectImage(){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if(intent.resolveActivity(getPackageManager()) != null)
+            startActivityForResult(intent, Constants.REQUEST_CODE_SELECT_IMAGE);
+        Toast.makeText(this, "Good here", Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == Constants.REQUEST_CODE_STORAGE_PERMISSION && grantResults.length > 0){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                selectImage();
+            }else
+                Toast.makeText(this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == Constants.REQUEST_CODE_SELECT_IMAGE && requestCode == RESULT_OK){
+            if(data != null){
+                Uri selectedImageUri = data.getData();
+                if(selectedImageUri != null){
+                    try{
+                        InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        imageNote.setImageBitmap(bitmap);
+                        Toast.makeText(this, "All set", Toast.LENGTH_SHORT).show();
+                    } catch (FileNotFoundException e) {
+                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            Toast.makeText(this, "Shit", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
