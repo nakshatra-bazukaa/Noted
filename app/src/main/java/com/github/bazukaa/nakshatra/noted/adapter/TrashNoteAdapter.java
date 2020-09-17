@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.bazukaa.nakshatra.noted.R;
@@ -30,8 +29,8 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
     @NonNull
     @Override
     public TrashNoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TrashNoteHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.note, parent, false));    }
-
+        return new TrashNoteHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.note, parent, false));
+    }
     @Override
     public void onBindViewHolder(@NonNull TrashNoteHolder holder, int position) {
 
@@ -49,14 +48,10 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
 
         // Card bg color
         GradientDrawable gradientDrawable = (GradientDrawable) holder.noteCard.getBackground();
-
-        if(trashNote.getColor() != null) {
+        if(trashNote.getColor() != null)
             gradientDrawable.setColor(Color.parseColor(trashNote.getColor()));
-        }
-        else {
+        else
             gradientDrawable.setColor(Color.parseColor(Constants.COLOR_1));
-        }
-
     }
 
     @Override
@@ -68,7 +63,6 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
 
         private TextView titleTv, noteTv, timeTv;
         private LinearLayout noteCard;
-
 
         public TrashNoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,15 +79,12 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
                 }
             });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    int position = getAdapterPosition();
-                    if (longClickListener != null && position != RecyclerView.NO_POSITION) {
-                        longClickListener.onTrashNoteItemLongClick(trashNotes.get(position));
-                    }
-                    return true;
+            itemView.setOnLongClickListener(view -> {
+                int position = getAdapterPosition();
+                if (longClickListener != null && position != RecyclerView.NO_POSITION) {
+                    longClickListener.onTrashNoteItemLongClick(trashNotes.get(position));
                 }
+                return true;
             });
         }
     }

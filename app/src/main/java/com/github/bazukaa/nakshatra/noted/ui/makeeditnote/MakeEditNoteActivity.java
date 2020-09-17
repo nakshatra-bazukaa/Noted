@@ -1,5 +1,26 @@
 package com.github.bazukaa.nakshatra.noted.ui.makeeditnote;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Patterns;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -8,34 +29,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.util.Patterns;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.util.Constants;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -68,15 +63,9 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     LinearLayout webUrlLayout;
     @BindView(R.id.act_makeNote_tv_web_url)
     TextView tvWebUrl;
-    @BindView(R.id.act_makeNote_img_delete_webLink)
-    ImageView deleteWebUrl;
 
-    @BindView(R.id.act_makeNote_img_options)
-    ImageView optionsMenu;
-    @BindView(R.id.layout_options_note_image)
-    LinearLayout saveImage;
-    @BindView(R.id.layout_options_note_url)
-    LinearLayout saveWebUrl;
+    @BindView(R.id.layout_options)
+    LinearLayout optionsMenu;
 
     @BindView(R.id.color_img_1)
     ImageView imageColor1;
@@ -89,20 +78,9 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     @BindView(R.id.color_img_5)
     ImageView imageColor5;
 
-    @BindView(R.id.color_1)
-    View viewColor1;
-    @BindView(R.id.color_2)
-    View viewColor2;
-    @BindView(R.id.color_3)
-    View viewColor3;
-    @BindView(R.id.color_4)
-    View viewColor4;
-    @BindView(R.id.color_5)
-    View viewColor5;
-
     private String selectedNoteColor;
-    private AlertDialog dialogAddUrl;
     private String webUrl;
+    private AlertDialog dialogAddUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +119,6 @@ public class MakeEditNoteActivity extends AppCompatActivity {
             webUrlLayout.setVisibility(View.VISIBLE);
         }
     }
-
     private void saveNote(){
         String title = titleEditText.getText().toString();
         String note = noteEditText.getText().toString();
@@ -170,15 +147,6 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         setResult(RESULT_OK, data);
         finish();
     }
-    @OnClick(R.id.act_makeNote_img_options)
-    public void onOptionsClicked(){
-        LinearLayout linearLayout = findViewById(R.id.layout_options);
-        if(linearLayout.getVisibility() == View.GONE)
-            linearLayout.setVisibility(View.VISIBLE);
-        else
-            linearLayout.setVisibility(View.GONE);
-    }
-
     @OnClick(R.id.color_1)
     public void view1Clicked(){
         color1Selected();
@@ -199,18 +167,30 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     public void view5Clicked(){
         color5Selected();
     }
+    @OnClick(R.id.act_makeNote_img_options)
+    public void onOptionsClicked(){
+        if(optionsMenu.getVisibility() == View.GONE)
+            optionsMenu.setVisibility(View.VISIBLE);
+        else
+            optionsMenu.setVisibility(View.GONE);
+    }
     @OnClick(R.id.layout_options_note_image)
     public void saveImageClicked(){
-        findViewById(R.id.layout_options).setVisibility(View.GONE);
+        optionsMenu.setVisibility(View.GONE);
         if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MakeEditNoteActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.REQUEST_CODE_STORAGE_PERMISSION);
         }else{
             selectImage();
         }
     }
+    @OnClick(R.id.act_makeNote_img_delete_webLink)
+    public void deleteWebLinkClicked(){
+        webUrlLayout.setVisibility(View.GONE);
+        webUrl = null;
+    }
     @OnClick(R.id.layout_options_note_url)
     public void onWebClicked(){
-        findViewById(R.id.layout_options).setVisibility(View.GONE);
+        optionsMenu.setVisibility(View.GONE);
         if(dialogAddUrl == null){
             AlertDialog.Builder builder = new AlertDialog.Builder(MakeEditNoteActivity.this);
             View view = LayoutInflater.from(this).inflate(
@@ -247,34 +227,6 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         }
         dialogAddUrl.show();
     }
-    @OnClick(R.id.act_makeNote_img_delete_webLink)
-    public void deleteWebLinkClicked(){
-        webUrlLayout.setVisibility(View.GONE);
-        webUrl = null;
-    }
-
-    @Override
-    public void onBackPressed() {
-        saveNote();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.act_make_note_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.save_note: saveNote();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void color1Selected(){
         selectedNoteColor = Constants.COLOR_1;
         imageColor1.setImageResource(R.drawable.ic_save);
@@ -283,7 +235,6 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         imageColor4.setImageResource(0);
         imageColor5.setImageResource(0);
     }
-
     private void color2Selected(){
         selectedNoteColor = Constants.COLOR_2;
         imageColor1.setImageResource(0);
@@ -292,7 +243,6 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         imageColor4.setImageResource(0);
         imageColor5.setImageResource(0);
     }
-
     private void color3Selected(){
         selectedNoteColor = Constants.COLOR_3;
         imageColor1.setImageResource(0);
@@ -301,7 +251,6 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         imageColor4.setImageResource(0);
         imageColor5.setImageResource(0);
     }
-
     private void color4Selected(){
         selectedNoteColor = Constants.COLOR_4;
         imageColor1.setImageResource(0);
@@ -310,7 +259,6 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         imageColor4.setImageResource(R.drawable.ic_save);
         imageColor5.setImageResource(0);
     }
-
     private void color5Selected(){
         selectedNoteColor = Constants.COLOR_5;
         imageColor1.setImageResource(0);
@@ -325,7 +273,25 @@ public class MakeEditNoteActivity extends AppCompatActivity {
             startActivityForResult(intent, Constants.REQUEST_CODE_SELECT_IMAGE);
         Toast.makeText(this, "Good here", Toast.LENGTH_SHORT).show();
     }
-
+    @Override
+    public void onBackPressed() {
+        saveNote();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.act_make_note_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.save_note: saveNote();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -336,7 +302,6 @@ public class MakeEditNoteActivity extends AppCompatActivity {
                 Toast.makeText(this, "Permission Denied!", Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

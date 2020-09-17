@@ -1,18 +1,6 @@
 package com.github.bazukaa.nakshatra.noted.ui.displaynotes;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -24,24 +12,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.adapter.NoteAdapter;
+import com.github.bazukaa.nakshatra.noted.db.entity.Note;
+import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
 import com.github.bazukaa.nakshatra.noted.ui.displaytrashnotes.TrashNotesActivity;
 import com.github.bazukaa.nakshatra.noted.ui.makeeditnote.MakeEditNoteActivity;
-import com.github.bazukaa.nakshatra.noted.R;
-import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 import com.github.bazukaa.nakshatra.noted.util.Constants;
 import com.github.bazukaa.nakshatra.noted.util.PreferenceManager;
 import com.github.bazukaa.nakshatra.noted.viewmodel.NoteViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,7 +49,7 @@ public class NotesActivity extends AppCompatActivity {
 
     private NoteViewModel noteViewModel;
     private PreferenceManager preferenceManager;
-    private boolean isGrid;
+    private boolean isNotGrid;
 
     private RecyclerView.LayoutManager layoutManager;
 
@@ -64,21 +59,10 @@ public class NotesActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.act_main_rv_notes)
     RecyclerView noteRecyclerView;
-
-    @BindView(R.id.act_main_fab_add)
-    FloatingActionButton addButton;
-
     @BindView(R.id.act_notes_et_search)
     EditText inputSearch;
-
-    @BindView(R.id.act_notes_add_image)
-    ImageView quickImage;
-
-    @BindView(R.id.act_notes_add_links)
-    ImageView quickWebLink;
 
     private AlertDialog dialogAddUrl;
 
@@ -94,9 +78,9 @@ public class NotesActivity extends AppCompatActivity {
         noteRecyclerView.setAdapter(adapter);
 
         // Setting grid/list mode
-        isGrid = preferenceManager.getBoolean(Constants.KEY_GRID_STATE);
-        if(isGrid) setGrid();
-        else setList();
+        isNotGrid = preferenceManager.getBoolean(Constants.KEY_GRID_STATE);
+        if(isNotGrid) setList();
+        else setGrid();
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
         noteViewModel.getNotes().observe(this, notes -> adapter.setNotes(notes));
@@ -140,15 +124,11 @@ public class NotesActivity extends AppCompatActivity {
 
         inputSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 adapter.cancelTimer();
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 adapter.searchNotes(s.toString());
@@ -156,14 +136,14 @@ public class NotesActivity extends AppCompatActivity {
         });
     }
     //To create a new note
+    @OnClick(R.id.act_notes_add_image)
+    public void quickImageNote(){
+
+    }
     @OnClick(R.id.act_main_fab_add)
     public void onFabClicked() {
         Intent intent = new Intent(NotesActivity.this, MakeEditNoteActivity.class);
         startActivityForResult(intent, ADD_NOTE_REQUEST);
-    }
-    @OnClick(R.id.act_notes_add_image)
-    public void quickImageNote(){
-
     }
     @OnClick(R.id.act_notes_add_links)
     public void quickWebLinkNote(){
@@ -203,7 +183,58 @@ public class NotesActivity extends AppCompatActivity {
         }
         dialogAddUrl.show();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_act_main, menu);
 
+        grid = menu.findItem(R.id.set_layout_grid);
+        list = menu.findItem(R.id.set_layout_list);
+        trash = menu.findItem(R.id.trash);
+
+        // To initially set list/grid view
+        if(isNotGrid){
+            grid.setVisible(true);
+            list.setVisible(false);
+        }else{
+            grid.setVisible(false);
+            list.setVisible(true);
+        }
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.set_layout_grid:
+                setGrid();
+                preferenceManager.putBoolean(Constants.KEY_GRID_STATE, Constants.LIST_MODE);
+                grid.setVisible(false);
+                list.setVisible(true);
+                return true;
+            case R.id.set_layout_list:
+                setList();
+                preferenceManager.putBoolean(Constants.KEY_GRID_STATE, Constants.GRID_MODE);
+                grid.setVisible(true);
+                list.setVisible(false);
+                return true;
+            case R.id.trash:
+                Intent intent = new Intent(NotesActivity.this, TrashNotesActivity.class);
+                startActivity(intent);
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    // To set to grid mode
+    private void setGrid(){
+        layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        noteRecyclerView.setLayoutManager(layoutManager);
+    }
+    // To set to list mode
+    private void setList(){
+        layoutManager = new LinearLayoutManager(NotesActivity.this);
+        noteRecyclerView.setLayoutManager(layoutManager);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -249,59 +280,5 @@ public class NotesActivity extends AppCompatActivity {
         } else if (requestCode == EDIT_NOTE_REQUEST) {
             Toast.makeText(this, "Note Unchanged", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_act_main, menu);
-
-        grid = menu.findItem(R.id.set_layout_grid);
-        list = menu.findItem(R.id.set_layout_list);
-        trash = menu.findItem(R.id.trash);
-
-        // To initially set list/grid view
-        if(isGrid){
-            grid.setVisible(false);
-            list.setVisible(true);
-        }else{
-            grid.setVisible(true);
-            list.setVisible(false);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.set_layout_grid:
-                setGrid();
-                preferenceManager.putBoolean(Constants.KEY_GRID_STATE, Constants.GRID_MODE);
-                grid.setVisible(false);
-                list.setVisible(true);
-                return true;
-            case R.id.set_layout_list:
-                setList();
-                preferenceManager.putBoolean(Constants.KEY_GRID_STATE, Constants.LIST_MODE);
-                grid.setVisible(true);
-                list.setVisible(false);
-                return true;
-            case R.id.trash:
-                Intent intent = new Intent(NotesActivity.this, TrashNotesActivity.class);
-                startActivity(intent);
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    // To set to grid mode
-    private void setGrid(){
-        layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        noteRecyclerView.setLayoutManager(layoutManager);
-    }
-    // To set to list mode
-    private void setList(){
-        layoutManager = new LinearLayoutManager(NotesActivity.this);
-        noteRecyclerView.setLayoutManager(layoutManager);
     }
 }

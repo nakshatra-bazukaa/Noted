@@ -9,19 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 import com.github.bazukaa.nakshatra.noted.util.Constants;
 
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,7 +36,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
     public NoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new NoteHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.note, parent, false));
     }
-
     @Override
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
         Note note = notes.get(position);
@@ -52,17 +50,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         timeStamp = timeStamp + " " + String.valueOf(sdf.format(resultdate));
         holder.timeTv.setText(timeStamp);
 
-        // Card bg color
+        // Setting Card bg color
         GradientDrawable gradientDrawable = (GradientDrawable) holder.noteCard.getBackground();
-
-        if(note.getColor() != null) {
+        if(note.getColor() != null)
             gradientDrawable.setColor(Color.parseColor(note.getColor()));
-        }
-        else {
+        else
             gradientDrawable.setColor(Color.parseColor(Constants.COLOR_1));
-        }
     }
-
     @Override
     public int getItemCount() {
         return notes.size();
@@ -95,20 +89,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         notesSource = notes;
         notifyDataSetChanged();
     }
-
-    public Note getNotePosition(int position) {
-        return notes.get(position);
-    }
-
-    //To edit a note
-    public interface OnItemClickListener {
-        void onItemClick(Note note);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
+    public Note getNotePosition(int position) { return notes.get(position); }
     public void searchNotes(final String searchKeyword){
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -138,4 +119,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         if(timer != null)
             timer.cancel();
     }
+    //To edit a note
+    public interface OnItemClickListener {
+        void onItemClick(Note note);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+
 }
