@@ -1,5 +1,6 @@
 package com.github.bazukaa.nakshatra.noted.adapter;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.db.entity.Note;
 import com.github.bazukaa.nakshatra.noted.util.Constants;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,6 +58,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             gradientDrawable.setColor(Color.parseColor(note.getColor()));
         else
             gradientDrawable.setColor(Color.parseColor(Constants.COLOR_1));
+
+        // Set image
+        if(note.getImgPath() != null){
+            holder.imageNote.setImageBitmap(BitmapFactory.decodeFile(note.getImgPath()));
+            holder.imageNote.setVisibility(View.VISIBLE);
+        }else
+            holder.imageNote.setVisibility(View.GONE);
+
     }
     @Override
     public int getItemCount() {
@@ -66,6 +76,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
         private TextView titleTv, noteTv, timeTv;
         private LinearLayout noteCard;
+        private RoundedImageView imageNote;
 
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +85,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             noteTv = itemView.findViewById(R.id.act_main_tv_note);
             timeTv = itemView.findViewById(R.id.act_main_tv_time);
             noteCard = itemView.findViewById(R.id.note_item_card);
+            imageNote = itemView.findViewById(R.id.note_item_image);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();

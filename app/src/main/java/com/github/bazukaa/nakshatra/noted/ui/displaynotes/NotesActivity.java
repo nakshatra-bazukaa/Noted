@@ -96,6 +96,7 @@ public class NotesActivity extends AppCompatActivity {
                 TrashNote trashNote = new TrashNote(note.getTitle(), note.getNote(), note.getTimeStamp());
                 trashNote.setColor(note.getColor());
                 trashNote.setWebLink(note.getWebLink());
+                trashNote.setImgPath(note.getImgPath());
                 noteViewModel.insert(trashNote);
                 noteViewModel.delete(note);
                 Toast.makeText(NotesActivity.this, "Note moved to trash", Toast.LENGTH_SHORT).show();
@@ -110,6 +111,7 @@ public class NotesActivity extends AppCompatActivity {
             intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, note.getNote());
             intent.putExtra(MakeEditNoteActivity.EXTRA_COLOR, note.getColor());
             intent.putExtra(MakeEditNoteActivity.EXTRA_WEB_LINK, note.getWebLink());
+            intent.putExtra(MakeEditNoteActivity.EXTRA_IMAGE_PATH, note.getImgPath());
 
             //Formatting currentTimeMillis in desired form before sending to MakeEditNoteActivity
             long currentTimeMillis = note.getTimeStamp();
@@ -245,10 +247,12 @@ public class NotesActivity extends AppCompatActivity {
             long timeStamp = data.getLongExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, 10000);
             String color = data.getStringExtra(MakeEditNoteActivity.EXTRA_COLOR);
             String webLink = data.getStringExtra(MakeEditNoteActivity.EXTRA_WEB_LINK);
+            String imagePath = data.getStringExtra(MakeEditNoteActivity.EXTRA_IMAGE_PATH);
 
             Note notedNote = new Note(title, note, timeStamp);
             notedNote.setColor(color);
             notedNote.setWebLink(webLink);
+            notedNote.setImgPath(imagePath);
             noteViewModel.insert(notedNote);
 
             Toast.makeText(this, "Note Saved successfully", Toast.LENGTH_SHORT).show();
@@ -268,11 +272,13 @@ public class NotesActivity extends AppCompatActivity {
             long timeStamp = data.getLongExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, 10000);
             String color = data.getStringExtra(MakeEditNoteActivity.EXTRA_COLOR);
             String webLink = data.getStringExtra(MakeEditNoteActivity.EXTRA_WEB_LINK);
+            String imagePath = data.getStringExtra(MakeEditNoteActivity.EXTRA_IMAGE_PATH);
 
             Note notedNote = new Note(title, note, timeStamp);
             notedNote.setColor(color);
             notedNote.setWebLink(webLink);
             notedNote.setId(id);
+            notedNote.setImgPath(imagePath);
             noteViewModel.update(notedNote);
 
             Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();

@@ -60,6 +60,7 @@ dependencies {
     // Material Design
     implementation 'com.google.android.material:material:1.1.0'
 
-
+    // Rounded image view
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 
 }

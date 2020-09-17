@@ -79,6 +79,7 @@ public class TrashNotesActivity extends AppCompatActivity {
             intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, trashNote.getNote());
             intent.putExtra(MakeEditNoteActivity.EXTRA_COLOR, trashNote.getColor());
             intent.putExtra(MakeEditNoteActivity.EXTRA_WEB_LINK, trashNote.getWebLink());
+            intent.putExtra(MakeEditNoteActivity.EXTRA_IMAGE_PATH, trashNote.getImgPath());
 
             //Formatting currentTimeMillis in desired form before sending to MakeEditNoteActivity
             long currentTimeMillis = trashNote.getTimestamp();
@@ -96,6 +97,7 @@ public class TrashNotesActivity extends AppCompatActivity {
             Note restoredNote = new Note(trashNote.getId(), trashNote.getTitle(), trashNote.getNote(), trashNote.getTimestamp());
             restoredNote.setColor(trashNote.getColor());
             restoredNote.setWebLink(trashNote.getWebLink());
+            restoredNote.setImgPath(trashNote.getImgPath());
             trashNoteViewModel.insert(restoredNote);
             trashNoteViewModel.delete(trashNote);
             Toast.makeText(TrashNotesActivity.this, "Note Restored", Toast.LENGTH_SHORT).show();
@@ -117,11 +119,13 @@ public class TrashNotesActivity extends AppCompatActivity {
             long timeStamp = data.getLongExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, 10000);
             String color = data.getStringExtra(MakeEditNoteActivity.EXTRA_COLOR);
             String webLink = data.getStringExtra(MakeEditNoteActivity.EXTRA_WEB_LINK);
+            String imagePath = data.getStringExtra(MakeEditNoteActivity.EXTRA_IMAGE_PATH);
 
             TrashNote notedTrashNote = new TrashNote(title, note, timeStamp);
             notedTrashNote.setColor(color);
             notedTrashNote.setWebLink(webLink);
             notedTrashNote.setId(id);
+            notedTrashNote.setImgPath(imagePath);
             trashNoteViewModel.update(notedTrashNote);
 
             Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();
