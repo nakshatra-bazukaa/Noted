@@ -102,6 +102,7 @@ public class NotesActivity extends AppCompatActivity {
             intent.putExtra(MakeEditNoteActivity.EXTRA_TITLE, note.getTitle());
             intent.putExtra(MakeEditNoteActivity.EXTRA_NOTE, note.getNote());
             intent.putExtra(MakeEditNoteActivity.EXTRA_COLOR, note.getColor());
+            intent.putExtra(MakeEditNoteActivity.EXTRA_WEB_LINK, note.getWebLink());
 
             //Formatting currentTimeMillis in desired form before sending to MakeEditNoteActivity
             long currentTimeMillis = note.getTimeStamp();
@@ -130,9 +131,11 @@ public class NotesActivity extends AppCompatActivity {
             String note = data.getStringExtra(MakeEditNoteActivity.EXTRA_NOTE);
             long timeStamp = data.getLongExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, 10000);
             String color = data.getStringExtra(MakeEditNoteActivity.EXTRA_COLOR);
+            String webLink = data.getStringExtra(MakeEditNoteActivity.EXTRA_WEB_LINK);
 
             Note notedNote = new Note(title, note, timeStamp);
             notedNote.setColor(color);
+            notedNote.setWebLink(webLink);
             noteViewModel.insert(notedNote);
 
             Toast.makeText(this, "Note Saved successfully", Toast.LENGTH_SHORT).show();
@@ -151,9 +154,11 @@ public class NotesActivity extends AppCompatActivity {
             String note = data.getStringExtra(MakeEditNoteActivity.EXTRA_NOTE);
             long timeStamp = data.getLongExtra(MakeEditNoteActivity.EXTRA_TIMESTAMP, 10000);
             String color = data.getStringExtra(MakeEditNoteActivity.EXTRA_COLOR);
+            String webLink = data.getStringExtra(MakeEditNoteActivity.EXTRA_WEB_LINK);
 
             Note notedNote = new Note(title, note, timeStamp);
             notedNote.setColor(color);
+            notedNote.setWebLink(webLink);
             notedNote.setId(id);
             noteViewModel.update(notedNote);
 

@@ -2,6 +2,7 @@ package com.github.bazukaa.nakshatra.noted.ui.makeeditnote;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -13,15 +14,19 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +50,7 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     public static final String EXTRA_NOTE = "com.github.bazukaa.nakshatra.noted.EXTRA_NOTE";
     public static final String EXTRA_TIMESTAMP = "com.github.bazukaa.nakshatra.noted.EXTRA_TIMESTAMP";
     public static final String EXTRA_COLOR = "com.github.bazukaa.nakshatra.noted.EXTRA_COLOR";
+    public static final String EXTRA_WEB_LINK = "com.github.bazukaa.nakshatra.noted.EXTRA_WEB_LINK";
     public static final String EXTRA_ID = "com.github.bazukaa.nakshatra.noted.EXTRA_ID";
 
     @BindView(R.id.act_makeNote_toolbar)
@@ -58,11 +64,17 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     TextView timeTextView;
     @BindView(R.id.act_makeNote_img_save_image)
     ImageView imageNote;
+    @BindView(R.id.act_makeNote_web_url)
+    LinearLayout webUrlLayout;
+    @BindView(R.id.act_makeNote_tv_web_url)
+    TextView tvWebUrl;
 
     @BindView(R.id.act_makeNote_img_options)
     ImageView optionsMenu;
     @BindView(R.id.layout_options_note_image)
     LinearLayout saveImage;
+    @BindView(R.id.layout_options_note_url)
+    LinearLayout saveWebUrl;
 
     @BindView(R.id.color_img_1)
     ImageView imageColor1;
@@ -87,7 +99,8 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     View viewColor5;
 
     private String selectedNoteColor;
-
+    private AlertDialog dialogAddUrl;
+    private String webUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +118,7 @@ public class MakeEditNoteActivity extends AppCompatActivity {
             noteEditText.setText(intent.getStringExtra(EXTRA_NOTE));
             timeTextView.setText(intent.getStringExtra(EXTRA_TIMESTAMP));
             selectedNoteColor = intent.getStringExtra(EXTRA_COLOR);
+            webUrl = intent.getStringExtra(EXTRA_WEB_LINK);
 
             if(selectedNoteColor == null)
                 selectedNoteColor = Constants.COLOR_1;
@@ -114,6 +128,10 @@ public class MakeEditNoteActivity extends AppCompatActivity {
             else if (selectedNoteColor.equals(Constants.COLOR_4)) color4Selected();
             else if (selectedNoteColor.equals(Constants.COLOR_5)) color5Selected();
 
+            if(webUrl != null){
+                tvWebUrl.setText(webUrl);
+                webUrlLayout.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -131,6 +149,9 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         data.putExtra(EXTRA_NOTE, note);
         data.putExtra(EXTRA_TIMESTAMP, timeStamp);
         data.putExtra(EXTRA_COLOR, selectedNoteColor);
+        if(webUrlLayout.getVisibility() == View.VISIBLE){
+            data.putExtra(EXTRA_WEB_LINK, tvWebUrl.getText().toString());
+        }
 
         //To edit the note
         int id = getIntent().getIntExtra(EXTRA_ID, -1);
@@ -172,18 +193,52 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     }
     @OnClick(R.id.layout_options_note_image)
     public void saveImageClicked(){
+        findViewById(R.id.layout_options).setVisibility(View.GONE);
         if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MakeEditNoteActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.REQUEST_CODE_STORAGE_PERMISSION);
         }else{
             selectImage();
         }
     }
+    @OnClick(R.id.layout_options_note_url)
+    public void onWebClicked(){
+        findViewById(R.id.layout_options).setVisibility(View.GONE);
+        if(dialogAddUrl == null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MakeEditNoteActivity.this);
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.layout_add_url,
+                    findViewById(R.id.layout_add_url_cl)
+            );
+            builder.setView(view);
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        saveNote();
+            dialogAddUrl = builder.create();
+            if(dialogAddUrl.getWindow() != null)
+                dialogAddUrl.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+            final EditText inputUrl = view.findViewById(R.id.layout_add_url_et_url);
+            inputUrl.requestFocus();
+
+            view.findViewById(R.id.layout_add_url_tv_add).setOnClickListener(v -> {
+                if(inputUrl.getText().toString().trim().isEmpty())
+                    Toast.makeText(MakeEditNoteActivity.this, "Add Url", Toast.LENGTH_SHORT).show();
+                else if (!Patterns.WEB_URL.matcher(inputUrl.getText().toString()).matches())
+                    Toast.makeText(MakeEditNoteActivity.this, "Enter valid Url", Toast.LENGTH_SHORT).show();
+                else{
+                    tvWebUrl.setText(inputUrl.getText());
+                    webUrlLayout.setVisibility(View.VISIBLE);
+                    dialogAddUrl.dismiss();
+                }
+
+            });
+
+            view.findViewById(R.id.layout_add_url_tv_cancel).setOnClickListener(v -> {
+                dialogAddUrl.dismiss();
+            });
+        }
+        dialogAddUrl.show();
     }
+
+
 
     @Override
     public void onBackPressed() {

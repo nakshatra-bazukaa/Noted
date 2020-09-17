@@ -31,8 +31,30 @@
         android:layout_marginHorizontal="@dimen/_12sdp"
         android:layout_marginTop="@dimen/_15sdp"
         android:adjustViewBounds="true"
-        app:layout_constraintTop_toBottomOf="@+id/act_makeNote_et_title"
-        />
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/act_makeNote_et_title"/>
+
+    <LinearLayout
+        android:id="@+id/act_makeNote_web_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/act_makeNote_img_save_image">
+        <TextView
+            android:id="@+id/act_makeNote_tv_web_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:autoLink="web"
+            android:fontFamily="sans-serif"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/_13ssp"/>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/act_makeNote_et_note"
@@ -50,7 +72,7 @@
         app:layout_constraintBottom_toTopOf="@+id/layout_options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/act_makeNote_img_save_image" />
+        app:layout_constraintTop_toBottomOf="@+id/act_makeNote_web_url" />
 
     <LinearLayout
         android:id="@+id/layout_options"
@@ -81,6 +103,27 @@
                 android:fontFamily="sans-serif"
                 android:includeFontPadding="false"
                 android:text="@string/add_image"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12ssp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_options_note_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:src="@drawable/ic_web" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="sans-serif"
+                android:includeFontPadding="false"
+                android:text="@string/add_url"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_12ssp"/>
         </LinearLayout>
