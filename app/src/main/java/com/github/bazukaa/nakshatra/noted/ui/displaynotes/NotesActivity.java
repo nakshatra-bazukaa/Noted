@@ -1,8 +1,15 @@
 package com.github.bazukaa.nakshatra.noted.ui.displaynotes;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -19,6 +26,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +44,8 @@ import com.github.bazukaa.nakshatra.noted.util.Constants;
 import com.github.bazukaa.nakshatra.noted.util.PreferenceManager;
 import com.github.bazukaa.nakshatra.noted.viewmodel.NoteViewModel;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -65,6 +76,7 @@ public class NotesActivity extends AppCompatActivity {
     EditText inputSearch;
 
     private AlertDialog dialogAddUrl;
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +152,40 @@ public class NotesActivity extends AppCompatActivity {
     //To create a new note
     @OnClick(R.id.act_notes_add_image)
     public void quickImageNote(){
-
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(NotesActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.REQUEST_CODE_STORAGE_PERMISSION);
+        }
+        else {
+            selectImage();
+        }
+    }
+    private void selectImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (intent.resolveActivity(getPackageManager()) != null)
+            startActivityForResult(intent, Constants.REQUEST_CODE_SELECT_IMAGE);
+    }
+    private String getPathFromUri(Uri contentUri) {
+        String filePath;
+        Cursor cursor = getContentResolver().query(contentUri, null, null, null, null);
+        if (cursor == null) {
+            filePath = contentUri.getPath();
+        } else {
+            cursor.moveToFirst();
+            int index = cursor.getColumnIndex("_data");
+            filePath = cursor.getString(index);
+            cursor.close();
+        }
+        return filePath;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == Constants.REQUEST_CODE_STORAGE_PERMISSION && grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                selectImage();
+            } else
+                Toast.makeText(this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+        }
     }
     @OnClick(R.id.act_main_fab_add)
     public void onFabClicked() {
@@ -285,6 +330,14 @@ public class NotesActivity extends AppCompatActivity {
 
         } else if (requestCode == EDIT_NOTE_REQUEST) {
             Toast.makeText(this, "Note Unchanged", Toast.LENGTH_SHORT).show();
+        }
+        if (requestCode == Constants.REQUEST_CODE_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            if (selectedImageUri != null) {
+                Intent intent = new Intent(NotesActivity.this, MakeEditNoteActivity.class);
+                intent.putExtra(MakeEditNoteActivity.EXTRA_IMAGE_PATH, getPathFromUri(selectedImageUri));
+                startActivityForResult(intent, ADD_NOTE_REQUEST);
+            }
         }
     }
 }

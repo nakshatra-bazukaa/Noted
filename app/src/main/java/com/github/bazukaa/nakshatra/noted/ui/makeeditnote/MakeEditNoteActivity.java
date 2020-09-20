@@ -65,6 +65,8 @@ public class MakeEditNoteActivity extends AppCompatActivity {
     LinearLayout webUrlLayout;
     @BindView(R.id.act_makeNote_tv_web_url)
     TextView tvWebUrl;
+    @BindView(R.id.act_makeNote_img_remove_image)
+    ImageView removeImage;
 
     @BindView(R.id.layout_options)
     LinearLayout optionsMenu;
@@ -121,6 +123,7 @@ public class MakeEditNoteActivity extends AppCompatActivity {
             if(selectedImagePath != null){
                 imageNote.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
                 imageNote.setVisibility(View.VISIBLE);
+                removeImage.setVisibility(View.VISIBLE);
             }
         }
         else if (intent.hasExtra(EXTRA_WEB_LINK)) {
@@ -128,33 +131,34 @@ public class MakeEditNoteActivity extends AppCompatActivity {
             tvWebUrl.setText(webUrl);
             webUrlLayout.setVisibility(View.VISIBLE);
         }
+        else if(intent.hasExtra(EXTRA_IMAGE_PATH)){
+            selectedImagePath = intent.getStringExtra(EXTRA_IMAGE_PATH);
+            imageNote.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
+            imageNote.setVisibility(View.VISIBLE);
+            removeImage.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnClick(R.id.color_1)
     public void view1Clicked() {
         color1Selected();
     }
-
     @OnClick(R.id.color_2)
     public void view2Clicked() {
         color2Selected();
     }
-
     @OnClick(R.id.color_3)
     public void view3Clicked() {
         color3Selected();
     }
-
     @OnClick(R.id.color_4)
     public void view4Clicked() {
         color4Selected();
     }
-
     @OnClick(R.id.color_5)
     public void view5Clicked() {
         color5Selected();
     }
-
     @OnClick(R.id.act_makeNote_img_options)
     public void onOptionsClicked() {
         if (optionsMenu.getVisibility() == View.GONE)
@@ -162,7 +166,6 @@ public class MakeEditNoteActivity extends AppCompatActivity {
         else
             optionsMenu.setVisibility(View.GONE);
     }
-
     @OnClick(R.id.layout_options_note_image)
     public void saveImageClicked() {
         optionsMenu.setVisibility(View.GONE);
@@ -172,13 +175,18 @@ public class MakeEditNoteActivity extends AppCompatActivity {
             selectImage();
         }
     }
-
     @OnClick(R.id.act_makeNote_img_delete_webLink)
     public void deleteWebLinkClicked() {
         webUrlLayout.setVisibility(View.GONE);
         webUrl = null;
     }
-
+    @OnClick(R.id.act_makeNote_img_remove_image)
+    public void onRemoveImageClicked(){
+        imageNote.setImageBitmap(null);
+        imageNote.setVisibility(View.GONE);
+        removeImage.setVisibility(View.GONE);
+        selectedImagePath = null;
+    }
     @OnClick(R.id.layout_options_note_url)
     public void onWebClicked() {
         optionsMenu.setVisibility(View.GONE);
@@ -357,6 +365,7 @@ public class MakeEditNoteActivity extends AppCompatActivity {
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                     imageNote.setImageBitmap(bitmap);
                     imageNote.setVisibility(View.VISIBLE);
+                    removeImage.setVisibility(View.VISIBLE);
                     selectedImagePath = getPathFromUri(selectedImageUri);
                 } catch (FileNotFoundException e) {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
