@@ -76,7 +76,6 @@ public class NotesActivity extends AppCompatActivity {
     EditText inputSearch;
 
     private AlertDialog dialogAddUrl;
-    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

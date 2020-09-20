@@ -65,7 +65,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             holder.imageNote.setVisibility(View.VISIBLE);
         }else
             holder.imageNote.setVisibility(View.GONE);
-
     }
     @Override
     public int getItemCount() {

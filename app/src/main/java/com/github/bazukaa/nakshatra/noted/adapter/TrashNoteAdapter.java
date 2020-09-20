@@ -1,5 +1,6 @@
 package com.github.bazukaa.nakshatra.noted.adapter;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.bazukaa.nakshatra.noted.R;
 import com.github.bazukaa.nakshatra.noted.db.entity.TrashNote;
 import com.github.bazukaa.nakshatra.noted.util.Constants;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,6 +54,13 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
             gradientDrawable.setColor(Color.parseColor(trashNote.getColor()));
         else
             gradientDrawable.setColor(Color.parseColor(Constants.COLOR_1));
+
+        // Set image
+        if(trashNote.getImgPath() != null){
+            holder.imageNote.setImageBitmap(BitmapFactory.decodeFile(trashNote.getImgPath()));
+            holder.imageNote.setVisibility(View.VISIBLE);
+        }else
+            holder.imageNote.setVisibility(View.GONE);
     }
 
     @Override
@@ -63,6 +72,8 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
 
         private TextView titleTv, noteTv, timeTv;
         private LinearLayout noteCard;
+        private RoundedImageView imageNote;
+
 
         public TrashNoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +82,7 @@ public class TrashNoteAdapter extends RecyclerView.Adapter<TrashNoteAdapter.Tras
             noteTv = itemView.findViewById(R.id.act_main_tv_note);
             timeTv = itemView.findViewById(R.id.act_main_tv_time);
             noteCard = itemView.findViewById(R.id.note_item_card);
+            imageNote = itemView.findViewById(R.id.note_item_image);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();

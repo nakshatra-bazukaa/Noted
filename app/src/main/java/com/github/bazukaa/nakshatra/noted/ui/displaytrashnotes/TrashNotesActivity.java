@@ -94,7 +94,7 @@ public class TrashNotesActivity extends AppCompatActivity {
 
         //To Restore a note
         trashNoteAdapter.setOnTrashNoteItemLongClickListener(trashNote -> {
-            Note restoredNote = new Note(trashNote.getId(), trashNote.getTitle(), trashNote.getNote(), trashNote.getTimestamp());
+            Note restoredNote = new Note(trashNote.getTitle(), trashNote.getNote(), trashNote.getTimestamp());
             restoredNote.setColor(trashNote.getColor());
             restoredNote.setWebLink(trashNote.getWebLink());
             restoredNote.setImgPath(trashNote.getImgPath());
