@@ -56,11 +56,24 @@
 
 # Screenshots
 
-<img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/SS/Screenshot_20200629-221403%7E2.png" height="360" width="250">
-<img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/SS/Screenshot_20200629-221702%7E2.png" height="360" width="250">
-<img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/SS/Screenshot_20200629-221706%7E2.png" height="360" width="250">
-<img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/SS/Screenshot_20200629-221733%7E2.png" height="360" width="250">
-<img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/SS/Screenshot_20200629-221810%7E2.png" height="360" width="250">
+##### Splash
+<img src="./Media/Splash.png" height="500" width="250">
+<br>
+
+##### Make Note Activity
+<img src="./Media/MakeNote.png" height="500" width="250">
+<br>
+
+##### NotesActivity with list and grid view
+<img src="./Media/ListView.png" height="500" width="250"> <img src="./Media/NotesAct.png" height="500" width="250">
+<br>
+
+##### Quick actions to save image and url
+<img src="./Media/ImageQuickAction.png" height="500" width="250"> <img src="./Media/AddUrlQuickAction.png" height="500" width="250">
+<br>
+
+##### Trash notes activity
+<img src="https://github.com/nakshatra-bazukaa/Noted/blob/master/SS/Screenshot_20200629-221733%7E2.png" height="500" width="250">
 
 # Contributions
 Contributions are welcome.
