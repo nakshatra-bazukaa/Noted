@@ -7,10 +7,11 @@
 2. An android app implementing room persistence library and live data.
 3. App architecture - MVVM architecture.
 4. It has many cool gesture features to handle the created notes in a fun way, like swipe to delete and long press to restore notes from trash.
-5. The user can generate a note by providing title and description with a very user-friendly UI.
+5. The user can generate a note by providing title, description, url or image with a very user-friendly UI.
 6. Users can choose to delete saved notes by swiping them left or right when required.
 7. Deleted notes are transferred to trash and the user can restore them by long pressing on them or delete them from there permanently by swiping them.
-
+8. User can even provide personalised colors to the notes.
+9. User can make notes with quick actions from the home screen.
 # Download the App
 [![Generic badge](https://img.shields.io/badge/Noted-Download-<COLOR>.svg)](https://drive.google.com/file/d/1lAD7i6T1oYy2wtPtzCulg1kwd-e7oiL-/view?usp=sharing)
 
